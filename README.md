@@ -63,7 +63,7 @@ Proiect personal, neafiliat magazinelor menționate. Prețurile provin din catal
 
 ## Lista de cumpărături și traseul
 
-Pe pagina principală poți scrie produsele dorite (sau le adaugi cu „＋” de pe cardurile de ofertă).
+Alegi zona: **Național** (ofertele din cataloage, valabile în toată țara) sau **Local** (orașul tău, sau locația GPS). Apoi scrii produsele dorite (sau le adaugi cu „＋” de pe cardurile de ofertă).
 Aplicația caută cel mai bun preț pentru fiecare produs, alege 1–3 magazine (sau câte vrei) și îți face traseul în Google Maps.
 
 - **Prin OferteRomania.exe** (pe PC sau pe telefon prin codul QR): compară **prețurile la raft de azi** din toate magazinele din jur

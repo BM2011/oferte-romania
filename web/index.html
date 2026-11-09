@@ -360,13 +360,18 @@ function render(){
 // ================= Lista de cumpărături + cele mai bune prețuri + traseu =================
 const EXTRA={megaimage:{name:"Mega Image",color:"#c8102e"},penny:{name:"Penny",color:"#cd1719"},auchan:{name:"Auchan",color:"#d6001c"},cora:{name:"Cora",color:"#e30613"},selgros:{name:"Selgros",color:"#004f9f"},supeco:{name:"Supeco",color:"#00843d"}};
 const smeta=k=>STORES[k]||EXTRA[k]||{name:k,color:"#777"};
+const ORASE=[["București",44.4268,26.1025],["Alba Iulia",46.0667,23.5833],["Alexandria",43.9686,25.3333],["Arad",46.1866,21.3123],["Bacău",46.5671,26.9146],["Baia Mare",47.6567,23.5850],["Bistrița",47.1333,24.5000],["Botoșani",47.7486,26.6694],["Brăila",45.2692,27.9575],["Brașov",45.6427,25.5887],["Buzău",45.1500,26.8333],["Călărași",44.2000,27.3333],["Cluj-Napoca",46.7712,23.6236],["Constanța",44.1598,28.6348],["Craiova",44.3302,23.7949],["Deva",45.8833,22.9000],["Drobeta-Turnu Severin",44.6369,22.6597],["Focșani",45.6967,27.1836],["Galați",45.4353,28.0080],["Giurgiu",43.9037,25.9699],["Iași",47.1585,27.6014],["Miercurea Ciuc",46.3594,25.8017],["Oradea",47.0465,21.9189],["Piatra Neamț",46.9275,26.3708],["Pitești",44.8565,24.8692],["Ploiești",44.9417,26.0237],["Râmnicu Vâlcea",45.1000,24.3667],["Reșița",45.3008,21.8892],["Satu Mare",47.7900,22.8900],["Sfântu Gheorghe",45.8667,25.7833],["Sibiu",45.7983,24.1256],["Slatina",44.4300,24.3700],["Slobozia",44.5639,27.3661],["Suceava",47.6514,26.2556],["Târgoviște",44.9254,25.4567],["Târgu Jiu",45.0450,23.2744],["Târgu Mureș",46.5425,24.5575],["Timișoara",45.7489,21.2087],["Tulcea",45.1667,28.8000],["Vaslui",46.6383,27.7292],["Zalău",47.1911,23.0572],["Mangalia",43.8167,28.5833],["Mediaș",46.1667,24.3500],["Onești",46.2500,26.7667],["Roman",46.9167,26.9167],["Bârlad",46.2333,27.6667],["Turda",46.5667,23.7833],["Hunedoara",45.7500,22.9000],["Petroșani",45.4167,23.3667],["Voluntari",44.4917,26.1867],["Otopeni",44.5500,26.0667],["Popești-Leordeni",44.3833,26.1667]];
+ORASE.sort((a,b)=>a[0]==="București"?-1:b[0]==="București"?1:a[0].localeCompare(b[0],"ro"));
 const LKEY="oferte-lista2";
 let LIST=ls.get(LKEY,null);
 if(!Array.isArray(LIST)) LIST=[...fav].map(k=>({t:k.split("|")[1]||k,pick:k}));
-const PL=Object.assign({max:"auto",km:5},ls.get("oferte-plan",{}));PL.route=null;PL.busy=false;
-let PLANKEYS=new Set(), MP=null, MPRES=null, LOC=ls.get("oferte-loc",null), SUG=[], sugT=0, mpT=0;
+const PL=Object.assign({max:"auto",km:5,zone:"nat"},ls.get("oferte-plan",{}));PL.route=null;PL.busy=false;
+let PLANKEYS=new Set(), MP=null, MPRES=null, LOC0=ls.get("oferte-loc",null), SUG=[], sugT=0, mpT=0;
 function saveList(){ls.set(LKEY,LIST);fav=new Set(LIST.filter(e=>e.pick).map(e=>e.pick))}
-const savePL=()=>ls.set("oferte-plan",{max:PL.max,km:PL.km});
+const savePL=()=>ls.set("oferte-plan",{max:PL.max,km:PL.km,zone:PL.zone});
+// LOC = locația folosită doar în modul „Local”; în „Național” nu folosim locația
+Object.defineProperty(window,"LOC",{get:()=>PL.zone==="local"?LOC0:null,set:v=>{LOC0=v}});
+
 saveList();
 
 const STOPW=new Set(["de","cu","si","la","din","pt","pentru","fara","in","un","o"]);
@@ -467,7 +472,7 @@ function geoLocate(){return new Promise((res,rej)=>{if(!navigator.geolocation||!
   navigator.geolocation.getCurrentPosition(p=>res({lat:+p.coords.latitude.toFixed(5),lon:+p.coords.longitude.toFixed(5),label:"Locația mea"}),rej,{timeout:12000,maximumAge:600000})})}
 async function geocode(q){const r=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ro&accept-language=ro&q="+encodeURIComponent(q));const j=await r.json();if(!j[0])throw new Error("nf");
   return{lat:+(+j[0].lat).toFixed(5),lon:+(+j[0].lon).toFixed(5),label:j[0].display_name.split(",").slice(0,2).join(",")}}
-function setLoc(l){LOC=l;ls.set("oferte-loc",l);PL.locErr="";PL.route=null;renderPlanner();schedMP()}
+function setLoc(l){LOC0=l;PL.zone="local";savePL();ls.set("oferte-loc",l);PL.locErr="";PL.route=null;renderPlanner();schedMP()}
 
 // --- traseu
 const hav=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dn=r(b.lon-a.lon),h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
@@ -514,15 +519,17 @@ function renderPlanner(){
   if(LIST.length&&MP&&LIST.some(e=>!e.pick&&!e.mp))h+=`<div class="pempty" style="margin-top:8px">💡 Pentru o comparație exactă, alege produsul din sugestiile care apar când scrii (ex. „Lapte Zuzu 3.5% 1l”). La un cuvânt general, aplicația ia cel mai ieftin produs de acel tip din fiecare magazin.</div>`;
   if(LIST.length)h+=`<div class="lchips">${LIST.map((e,i)=>`<span class="lchip${plan&&plan.best&&!plan.best.ch[i]?" miss":""}">${esc(e.mp?e.mp.name:e.t)}<button data-ldel="${i}" title="Șterge">×</button></span>`).join("")}</div>`;
   // locație + sursă prețuri
-  h+=`<div class="popts">📍 ${LOC?`<b style="color:var(--ink)">${esc(LOC.label)}</b>`:"Locația ta:"}
-    <button class="chip" data-geo="1">Folosește locația mea</button>
-    <form id="locf" style="display:inline-flex;gap:6px"><input id="locq" placeholder="sau scrie orașul / adresa" style="padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:13px;width:190px"><button class="chip">OK</button></form>
-    ${MP?`<span>Rază: <select id="pkm">${[2,5,10,20].map(k=>`<option ${PL.km==k?"selected":""} value="${k}">${k} km</option>`).join("")}</select></span>`:""}</div>`;
+  h+=`<div class="popts zone">Zona: <span class="seg"><button data-zone="nat" class="${PL.zone!=="local"?"on":""}">🇷🇴 Național</button> <button data-zone="local" class="${PL.zone==="local"?"on":""}">📍 Local</button></span>
+    ${PL.zone==="local"?`<select id="city"><option value="">— alege orașul —</option>${ORASE.map(([n])=>`<option ${LOC0&&LOC0.label===n?"selected":""}>${n}</option>`).join("")}${LOC0&&!ORASE.some(o=>o[0]===LOC0.label)?`<option selected>${esc(LOC0.label)}</option>`:""}</select>
+    <button class="chip" data-geo="1">🎯 Locația mea</button>
+    <form id="locf" style="display:inline-flex;gap:6px"><input id="locq" placeholder="altă localitate / adresă" style="padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:13px;width:170px"><button class="chip">OK</button></form>
+    ${MP?`<span>Rază: <select id="pkm">${[2,5,10,20].map(k=>`<option ${PL.km==k?"selected":""} value="${k}">${k} km</option>`).join("")}</select></span>`:""}`:`<span>— ofertele din cataloage, valabile în toate magazinele lanțului din țară</span>`}</div>`;
   if(PL.locErr)h+=`<div class="pempty">⚠️ ${esc(PL.locErr)}</div>`;
   h+=`<div class="popts">Câte magazine vrei să vizitezi? <span class="seg">${[["auto","Recomandat"],["1","1"],["2","2"],["3","3"],["all","Oricâte"]].map(([k,l])=>`<button data-pmax="${k}" class="${PL.max===k?"on":""}">${l}</button>`).join(" ")}</span></div>`;
-  const src=plan&&plan.storeMode?`Prețuri la raft de azi din <a href="https://monitorulpreturilor.info" target="_blank" rel="noopener">Monitorul Prețurilor</a> (Consiliul Concurenței) pentru magazinele pe o rază de ${PL.km} km + ofertele din cataloage.`
-    :MP?(LOC?(PL.busy?"Caut prețurile la raft în magazinele din jur…":MPRES&&MPRES.err?"⚠️ Monitorul Prețurilor nu răspunde acum; folosesc doar ofertele din cataloage.":MPRES&&!MPRES.stores?.length&&!stale?"Nu am găsit aceste produse în magazinele din rază; mărește raza. Până atunci folosesc ofertele din cataloage.":"Caut prețurile la raft…"):"Alege locația ca să compar <b>prețurile la raft din toate magazinele din jur</b> (nu doar ofertele).")
-    :"Compar ofertele din cataloage. Pentru prețurile obișnuite la raft din toate magazinele din jur, deschide aplicația prin <b>OferteRomania.exe</b> pe PC (sau pe telefon prin codul QR).";
+  const src=PL.zone!=="local"?"Mod național: compar ofertele din cataloage (aceleași în toată țara). Alege <b>📍 Local</b> și orașul tău pentru prețurile la raft din magazinele din zonă și pentru traseu."
+    :plan&&plan.storeMode?`Prețuri la raft de azi din <a href="https://monitorulpreturilor.info" target="_blank" rel="noopener">Monitorul Prețurilor</a> (Consiliul Concurenței) pentru magazinele pe o rază de ${PL.km} km + ofertele din cataloage.`
+    :MP?(LOC?(PL.busy?"Caut prețurile la raft în magazinele din jur…":MPRES&&MPRES.err?"⚠️ Monitorul Prețurilor nu răspunde acum; folosesc doar ofertele din cataloage.":MPRES&&!MPRES.stores?.length&&!stale?"Nu am găsit aceste produse în magazinele din rază; mărește raza. Până atunci folosesc ofertele din cataloage.":"Caut prețurile la raft…"):"Alege orașul ca să compar <b>prețurile la raft din magazinele din zonă</b> (nu doar ofertele).")
+    :(LOC?"Compar ofertele din cataloage; traseul folosește magazinele din "+esc(LOC.label)+". ":"Alege orașul pentru traseu. ")+"Pentru prețurile obișnuite la raft din toate magazinele din jur, deschide aplicația prin <b>OferteRomania.exe</b> pe PC (sau pe telefon prin codul QR).";
   h+=`<div class="pempty">${PL.busy?"⏳ ":""}${src}</div>`;
   if(!LIST.length){el.innerHTML=h+`</div>`;wirePlanner();return}
   if(!plan.best){h+=`<div class="pempty">Niciun produs din listă nu are deocamdată ${plan.storeMode?"preț în magazinele din rază":"ofertă în cataloage"}.</div></div>`;el.innerHTML=h;wirePlanner();return}
@@ -542,7 +549,7 @@ function renderPlanner(){
   if(PL.max!=="all"&&nx){if(nx.cov>B.cov)h+=`<div class="phint">Cu încă un magazin găsești ${nx.cov-B.cov===1?"încă un produs":`încă ${nx.cov-B.cov} produse`}. <button data-pmax="${k+1}">Arată planul cu ${k+1} magazine</button></div>`;
     else if(nx.cov===B.cov&&B.cost-nx.cost>=3)h+=`<div class="phint">Dacă mergi și într-un al ${k+1}-lea magazin economisești încă ${fmtP(B.cost-nx.cost)} lei. <button data-pmax="${k+1}">Arată planul</button></div>`}
   h+=`<div class="ptot"><div><div class="big">Total: ${fmtP(B.cost)} lei</div>${save>0.01?`<div class="sv">Economisești ${fmtP(save)} lei față de prețul normal</div>`:""}</div>
-    <div class="acts"><button class="btnp" data-route="1">🗺️ ${PL.route&&PL.route.stops?"Recalculează traseul":"Traseul meu"}</button><button class="btnp sec" data-share="1">📤 Trimite lista</button><button class="btnp sec" data-lclear="1">Golește</button></div></div>`;
+    <div class="acts">${PL.zone==="local"?`<button class="btnp" data-route="1">🗺️ ${PL.route&&PL.route.stops?"Recalculează traseul":"Traseul meu"}</button>`:`<button class="btnp" data-zone="local">📍 Alege orașul pentru traseu</button>`}<button class="btnp sec" data-share="1">📤 Trimite lista</button><button class="btnp sec" data-lclear="1">Golește</button></div></div>`;
   if(PL.route){const R=PL.route;
     if(R.busy)h+=`<div class="proute">⏳ Caut cele mai apropiate magazine (câteva secunde)…</div>`;
     else if(R.err)h+=`<div class="proute">⚠️ ${esc(R.err)}</div>`;
@@ -561,7 +568,8 @@ var wirePlanner=function(){
     const off=items.filter(isActive).filter(it=>tmatch(t,it.name+" "+(it.q||""))).sort(byP).slice(0,4).map(o=>({o}));SUG=off;showSug();
     if(MP)sugT=setTimeout(()=>mpSearch(t).then(L=>{if(q.value.trim()!==t)return;SUG=[...off,...L.slice(0,8).map(x=>({id:x.id,name:x.name}))];showSug()}).catch(()=>{}),300)};
   q.onblur=()=>setTimeout(()=>{SUG=[];showSug()},200);
-  const lf=document.getElementById("locf");lf.onsubmit=async ev=>{ev.preventDefault();const v=document.getElementById("locq").value.trim();if(!v)return;try{setLoc(await geocode(v))}catch(e){PL.locErr="Nu am găsit localitatea „"+v+"”.";renderPlanner()}};
+  const lf=document.getElementById("locf");if(lf)lf.onsubmit=async ev=>{ev.preventDefault();const v=document.getElementById("locq").value.trim();if(!v)return;try{setLoc(await geocode(v))}catch(e){PL.locErr="Nu am găsit localitatea „"+v+"”.";renderPlanner()}};
+  const cs=document.getElementById("city");if(cs)cs.onchange=()=>{const o=ORASE.find(o=>o[0]===cs.value);if(o)setLoc({lat:o[1],lon:o[2],label:o[0]})};
   const km=document.getElementById("pkm");if(km)km.onchange=()=>{PL.km=+km.value;savePL();PL.route=null;renderPlanner();schedMP()};
 }
 document.addEventListener("mousedown",e=>{const s=e.target.closest("[data-sg]");if(!s)return;e.preventDefault();const x=SUG[+s.dataset.sg];
@@ -570,6 +578,7 @@ document.addEventListener("mousedown",e=>{const s=e.target.closest("[data-sg]");
 document.addEventListener("click",async e=>{
   const t=e.target;let b;
   if(b=t.closest("[data-ldel]")){LIST.splice(+b.dataset.ldel,1);listChanged()}
+  else if(b=t.closest("[data-zone]")){PL.zone=b.dataset.zone;savePL();PL.route=null;MPRES=null;renderPlanner();schedMP();if(PL.zone==="local"&&!LOC0)setTimeout(()=>document.getElementById("city")?.focus(),0)}
   else if(b=t.closest("[data-pmax]")){PL.max=b.dataset.pmax;savePL();PL.route=null;renderPlanner()}
   else if(t.closest("[data-lclear]")){if(confirm("Golești lista de cumpărături?")){LIST=[];MPRES=null;listChanged()}}
   else if(t.closest("[data-geo]")){try{setLoc(await geoLocate())}catch(err){PL.locErr=window.isSecureContext?"Nu am primit acces la locație. Permite locația în browser sau scrie orașul.":"Aici browserul nu dă acces la locație; scrie orașul sau adresa.";renderPlanner()}}
