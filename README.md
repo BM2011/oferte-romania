@@ -60,3 +60,15 @@ Chei magazin: `lidl`, `kaufland`, `carrefour`, `profi`, `dedeman`, `brico`, `ler
 ## Notă
 
 Proiect personal, neafiliat magazinelor menționate. Prețurile provin din cataloage și articole de presă publice și pot varia între magazine; ofertele sunt valabile în limita stocului. Verifică întotdeauna catalogul oficial înainte de cumpărare. Fotografiile de produs provin din Open Food Facts (CC BY-SA); nu folosim imagini din cataloagele magazinelor.
+
+## Lista de cumpărături și traseul
+
+Pe pagina principală poți scrie produsele dorite (sau le adaugi cu „＋” de pe cardurile de ofertă).
+Aplicația caută cel mai bun preț pentru fiecare produs, alege 1–3 magazine (sau câte vrei) și îți face traseul în Google Maps.
+
+- **Prin OferteRomania.exe** (pe PC sau pe telefon prin codul QR): compară **prețurile la raft de azi** din toate magazinele din jur
+  (Kaufland, Carrefour, Lidl, Profi, Mega Image, Penny, Auchan, Cora) din
+  [Monitorul Prețurilor](https://monitorulpreturilor.info) al Consiliului Concurenței, plus ofertele din cataloage.
+- **Versiunea online** (GitHub Pages): compară doar ofertele din cataloage; traseul folosește filialele din OpenStreetMap.
+
+Locația ta e trimisă doar către Monitorul Prețurilor / OpenStreetMap, ca să găsească magazinele din jur; lista rămâne pe dispozitivul tău.

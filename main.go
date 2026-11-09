@@ -74,6 +74,7 @@ func main() {
 	go func() { time.Sleep(1500 * time.Millisecond); photos.prefetch(root) }()
 	mux.HandleFunc("/api/ping", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("ok")) })
 	mux.HandleFunc("/api/img", photos.handler)
+	mux.HandleFunc("/api/mp/", newMPProxy().handler)
 	// Ofertele cele mai noi: data.json din GitHub (actualizat zilnic de bot), cu rezervă locală.
 	online := newOnlineData(exeDir)
 	mux.HandleFunc("/data.json", func(w http.ResponseWriter, r *http.Request) {

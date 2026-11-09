@@ -77,8 +77,8 @@ section h2 small{font-size:13px;color:var(--muted);font-weight:500}
 .tag.future{color:var(--accent);border-color:currentColor;background:transparent;font-weight:600}
 .cat-link{font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;padding:4px 0 0;align-self:flex-start}
 .cat-link:hover{text-decoration:underline}
-.star{position:absolute;right:8px;bottom:8px;border:none;background:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px}
-.star.on{color:#e6a700}
+.star{position:absolute;right:8px;bottom:8px;width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);background:var(--card);font-size:18px;font-weight:800;line-height:1;cursor:pointer;color:var(--accent);padding:0;display:flex;align-items:center;justify-content:center}
+.star.on{background:var(--accent);color:#fff}
 .supers{margin:18px 0 6px;padding:16px;border-radius:18px;background:linear-gradient(135deg,#fff1e6,#ffe3e3);border:1px solid #f5c7b8}
 @media (prefers-color-scheme:dark){.supers{background:linear-gradient(135deg,#2a1d17,#2a1719);border-color:#4a2a22}}
 .supers h2{margin:0 0 4px;font-size:21px;letter-spacing:-.01em}
@@ -137,6 +137,45 @@ section h2 small{font-size:13px;color:var(--muted);font-weight:500}
 .list h3{margin:0 0 8px;font-size:15px}.list li{font-size:14px;margin:4px 0}.list .tot{font-weight:700;margin:8px 0}
 .bot{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent);font-weight:600;margin-top:6px}
 .bot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.planner{margin:16px 0 8px;padding:16px 18px;border-radius:18px;background:var(--card);border:2px solid var(--accent);box-shadow:0 4px 18px rgba(15,122,79,.10)}
+.planner h2{margin:0;font-size:21px;letter-spacing:-.01em}
+.planner .lead{font-size:13px;color:var(--muted);margin:3px 0 12px}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1;width:100%;min-width:0;padding:12px 14px;font:inherit;font-size:15px;border:2px solid var(--accent);border-radius:12px;background:var(--bg);color:var(--ink);outline:none}
+.addrow input:focus{box-shadow:0 0 0 4px rgba(15,122,79,.2)}
+.btnp{border:none;background:var(--accent);color:#fff;font:inherit;font-weight:700;font-size:14px;padding:10px 16px;border-radius:12px;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btnp.sec{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.lchips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.lchip{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 6px 4px 11px;font-size:13px}
+.lchip.miss{border-style:dashed;color:var(--muted)}
+.lchip button,.pdel{border:none;background:none;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:2px 5px}
+.popts{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:12px 0 4px;font-size:13px;color:var(--muted)}
+.popts .seg button{padding:5px 11px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:10px}
+.pstore{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:12px;padding:10px 12px;background:var(--bg)}
+.psh{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.psh b{font-size:15px}.psh small{color:var(--muted);margin-left:auto;font-size:12.5px;text-align:right}
+.stopn{width:24px;height:24px;border-radius:50%;background:var(--c);color:#fff;font-weight:800;font-size:13px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.pstore ul{list-style:none;margin:0;padding:0}
+.pstore li{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:7px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.pstore li:first-child{border-top:none}
+.pstore li label{display:flex;gap:8px;align-items:flex-start;flex:1;min-width:0;cursor:pointer}
+.pstore li input{margin-top:3px;accent-color:var(--accent);width:17px;height:17px;flex:none}
+.pstore li.done .pn{text-decoration:line-through;opacity:.55}
+.pn small{color:var(--muted)}.pn i{font-style:normal;color:var(--muted);font-size:12px;display:block}
+.pp{font-weight:800;white-space:nowrap}.pp s{font-weight:400;color:var(--muted);font-size:12px;margin-left:4px}
+.palt{width:100%;font-size:12px!important;padding:4px 8px!important;border-radius:8px!important;color:var(--muted)!important}
+.ptot{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.ptot .big{font-size:20px;font-weight:800}.ptot .sv{color:var(--accent);font-weight:700}
+.ptot .acts{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.phint{margin-top:10px;font-size:13px;background:color-mix(in srgb,var(--accent) 10%,var(--card));border-radius:10px;padding:8px 12px}
+.phint button{border:none;background:none;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;text-decoration:underline;padding:0}
+.proute{margin-top:12px;padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:13.5px}
+.proute ol{margin:6px 0 10px;padding-left:22px}.proute li{margin:5px 0}.proute li small{color:var(--muted)}
+.pempty{font-size:13px;color:var(--muted);margin-top:10px}.pempty a{color:var(--accent)}
+.psug{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:30;max-height:340px;overflow:auto}
+.psug[hidden]{display:none}.sg{padding:9px 12px;font-size:13.5px;cursor:pointer;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}.sg:first-child{border-top:none}.sg:hover{background:var(--bg)}.sg small{color:var(--muted)}.sg b{margin-left:auto}
+@media (max-width:700px){.planner{padding:12px;margin:12px -4px 6px;border-radius:14px}.planner h2{font-size:18px}.addrow input{font-size:16px}.addrow .btnp{padding:10px 12px}#locq{width:100%!important}#locf{flex:1 1 100%}.pgrid{grid-template-columns:1fr}.ptot .acts{margin-left:0;width:100%}.ptot .acts .btnp{flex:1;justify-content:center}}
 footer{font-size:12px;color:var(--muted);line-height:1.6;margin-top:34px;border-top:1px solid var(--line);padding-top:14px}
 footer a{color:var(--muted)}
 </style>
@@ -150,6 +189,7 @@ footer a{color:var(--muted)}
 </header>
 <div class="wrap">
   <div class="campaigns" id="campaigns"></div>
+  <div id="planner"></div>
   <div class="toolbar">
     <div class="row seg secs" id="secs"></div>
     <div class="row seg" id="stores"></div>
@@ -161,13 +201,12 @@ footer a{color:var(--muted)}
         <option value="end">Expiră curând</option>
       </select>
       <label class="tg"><input type="checkbox" id="noapp"> Fără card/aplicație</label>
-      <label class="tg"><input type="checkbox" id="onlyfav"> ★ Lista mea</label>
+      <label class="tg"><input type="checkbox" id="onlyfav"> 🛒 Doar din lista mea</label>
     </div>
     <div class="row catnav" id="catnav"></div>
   </div>
   <div id="supers"></div>
   <div id="sections"></div>
-  <div id="mylist"></div>
   <footer id="foot"></footer>
 </div>
 <button id="toTop" aria-label="Sus">↑</button>
@@ -276,7 +315,7 @@ function card(it,sup){
     <div class="price">${price}</div>${sup&&it.old&&it.price?`<div class="save">Economisești ${fmtP(it.old-it.price)} lei</div>`:""}
     <div class="meta"><span class="tag ${sx.k==="soon"?"soon":sx.k==="future"?"future":""}">${sx.txt}</span>${app}</div>
     ${(()=>{const L=productLink(it);return `<a class="cat-link" href="${L.href}" target="_blank" rel="noopener">${L.label}</a>`})()}</div>
-    <button class="star ${fav.has(k)?"on":""}" data-f="${encodeURIComponent(k)}" title="Lista de cumpărături">${fav.has(k)?"★":"☆"}</button>
+    <button class="star ${fav.has(k)?"on":""}" data-f="${encodeURIComponent(k)}" title="${fav.has(k)?"Scoate din lista de cumpărături":"Adaugă în lista de cumpărături"}">${fav.has(k)?"✓":"＋"}</button>
   </div>`;
 }
 
@@ -306,7 +345,7 @@ function render(){
     if(secOf(it.store)!==st.sec) return false;
     if(st.store!=="all"&&it.store!==st.store) return false;
     if(noapp&&it.app) return false;
-    if(onlyfav&&!fav.has(keyOf(it))) return false;
+    if(onlyfav&&!fav.has(keyOf(it))&&!PLANKEYS.has(keyOf(it))) return false;
     if(q&&!norm(it.name+" "+it.size+" "+(CATS[it.cat]?.[1]||"")).includes(q)) return false;
     return true;
   });
@@ -315,18 +354,230 @@ function render(){
   const groups=Object.keys(CATS).filter(c=>(CATS[c][3]||"super")===st.sec).map(c=>[c,list.filter(i=>i.cat===c).sort(cmp)]).filter(g=>g[1].length);
   document.getElementById("catnav").innerHTML=groups.map(([c,a])=>`<a href="#${c}">${CATS[c][0]} ${CATS[c][1]}<small>${a.length}</small></a>`).join("");
   document.getElementById("sections").innerHTML=groups.length?groups.map(([c,a])=>`<section id="${c}"><h2>${CATS[c][0]} ${CATS[c][1]} <small>${a.length===1?"1 ofertă":a.length+" oferte"}</small></h2><div class="grid">${a.map(card).join("")}</div></section>`).join(""):`<div class="empty">Nicio ofertă pentru filtrele alese.</div>`;
-  renderList();
+  renderPlanner();
   wirePhotos();
 }
-function renderList(){
-  const el=document.getElementById("mylist"), f=items.filter(it=>fav.has(keyOf(it)));
-  if(!f.length){el.innerHTML="";return}
-  let tot=0;const by={};f.forEach(it=>(by[it.store]=by[it.store]||[]).push(it));
-  el.innerHTML=`<div class="list" id="lista"><h3>★ Lista mea de cumpărături (${f.length})</h3>${Object.entries(by).map(([s,a])=>`<b>${STORES[s].name}</b><ul>${a.map(it=>{if(it.price)tot+=it.price;return `<li>${iconFor(it)} ${it.name} ${it.size?"("+it.size+")":""} — ${it.price?fmtP(it.price)+" lei"+(it.unit||""):"−"+it.disc+"%"}${status(it).k==="exp"?" <i>(expirată)</i>":""}</li>`}).join("")}</ul>`).join("")}
-  <div class="tot">Total estimat: ${fmtP(tot)} lei</div><button class="chip" id="copy">Copiază lista</button> <button class="chip" id="clear">Golește</button></div>`;
-  document.getElementById("copy").onclick=e=>{const t=f.map(it=>`${STORES[it.store].name}: ${it.name} ${it.size} – ${it.price?fmtP(it.price)+" lei":"−"+it.disc+"%"}`).join("\n")+`\nTotal: ${fmtP(tot)} lei`;navigator.clipboard.writeText(t).then(()=>e.target.textContent="Copiat ✓").catch(()=>{})};
-  document.getElementById("clear").onclick=()=>{fav.clear();ls.set("oferte-fav2",[]);render()};
+// ================= Lista de cumpărături + cele mai bune prețuri + traseu =================
+const EXTRA={megaimage:{name:"Mega Image",color:"#c8102e"},penny:{name:"Penny",color:"#cd1719"},auchan:{name:"Auchan",color:"#d6001c"},cora:{name:"Cora",color:"#e30613"},selgros:{name:"Selgros",color:"#004f9f"},supeco:{name:"Supeco",color:"#00843d"}};
+const smeta=k=>STORES[k]||EXTRA[k]||{name:k,color:"#777"};
+const LKEY="oferte-lista2";
+let LIST=ls.get(LKEY,null);
+if(!Array.isArray(LIST)) LIST=[...fav].map(k=>({t:k.split("|")[1]||k,pick:k}));
+const PL=Object.assign({max:"auto",km:5},ls.get("oferte-plan",{}));PL.route=null;PL.busy=false;
+let PLANKEYS=new Set(), MP=null, MPRES=null, LOC=ls.get("oferte-loc",null), SUG=[], sugT=0, mpT=0;
+function saveList(){ls.set(LKEY,LIST);fav=new Set(LIST.filter(e=>e.pick).map(e=>e.pick))}
+const savePL=()=>ls.set("oferte-plan",{max:PL.max,km:PL.km});
+saveList();
+
+const STOPW=new Set(["de","cu","si","la","din","pt","pentru","fara","in","un","o"]);
+const toks=s=>norm(s||"").replace(/[^a-z0-9]+/g," ").split(" ").filter(w=>w.length>1&&!STOPW.has(w));
+const stem=w=>w.length>4?w.slice(0,-1):w;
+// potrivire de cuvânt cu terminații românești (lapte/laptele, roșie/roșii) dar nu „laptop”
+const SUF=/^(|a|e|i|u|ul|ui|ua|aua|uri|urile|ele|ii|ile|ea|le|lor|ul)$/;
+const wmatch=(t,w)=>{if(w.startsWith(t)&&SUF.test(w.slice(t.length)))return true;const st=stem(t);return w.startsWith(st)&&SUF.test(w.slice(st.length))};
+const tmatch=(q,name)=>{const T=toks(q);if(!T.length)return false;const W=toks(name);return T.every(t=>W.some(w=>wmatch(t,w)))};
+// primul cuvânt căutat trebuie să fie „capul” denumirii: primele 3 cuvinte, nu după „cu/de/în” (exclude „ciocolată cu lapte”, „ton în ulei”)
+const MODW=new Set(["cu","in","fara","si","pentru","la"]);
+const headOk=(q,name)=>{const t=toks(q)[0];if(!t)return false;const W=norm(name).replace(/[^a-z0-9]+/g," ").trim().split(" ");const i=W.findIndex(w=>wmatch(t,w));return i>=0&&i<=2&&!MODW.has(W[i-1])};
+const goodMatch=(q,name)=>tmatch(q,name)&&headOk(q,name);
+const isActive=it=>{const k=status(it).k;return k==="ok"||k==="soon"};
+const byP=(a,b)=>(a.price??1e9)-(b.price??1e9);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function offerCands(e){
+  const act=items.filter(isActive);
+  if(e.pick){const o=act.find(it=>keyOf(it)===e.pick);if(o)return[o]}
+  return act.filter(it=>goodMatch(e.t,it.name)||(it.q&&goodMatch(e.t,it.q+" "+it.name))).sort(byP);
 }
+// --- optimizare: ce magazine (max 3) acoperă cele mai multe produse la cel mai mic cost
+function optimize(U,cell,nE,dist){
+  const res={};
+  const evalSet=set=>{let cov=0,cost=0;const ch=[];
+    for(let i=0;i<nE;i++){let b=null;for(const u of set){const c=cell[i][u];if(c&&(!b||(c.price??1e9)<(b.price??1e9)))b={...c,u}}ch.push(b);if(b){cov++;cost+=b.price||0}}
+    const used=[...new Set(ch.filter(Boolean).map(c=>c.u))];
+    return {set:used,cov,cost,ch,pen:cost+(dist?used.reduce((a,u)=>a+dist(u)*0.6,0):0)}};
+  const better=(a,b)=>!b||a.cov>b.cov||(a.cov===b.cov&&a.pen<b.pen-1e-9);
+  const rank=U.map(u=>{let cov=0,cost=0;for(let i=0;i<nE;i++){const c=cell[i][u];if(c){cov++;cost+=c.price||0}}return{u,cov,cost}}).filter(x=>x.cov).sort((a,b)=>b.cov-a.cov||a.cost-b.cost);
+  const lim={1:rank.length,2:Math.min(rank.length,30),3:Math.min(rank.length,16)};
+  for(const k of[1,2,3]){const L=rank.slice(0,lim[k]).map(x=>x.u);
+    const rec=(s,cur)=>{if(cur.length===k){const r=evalSet(cur),kk=r.set.length;if(kk&&better(r,res[kk]))res[kk]=r;return}for(let j=s;j<L.length;j++){cur.push(L[j]);rec(j+1,cur);cur.pop()}};
+    if(L.length>=k)rec(0,[])}
+  if(rank.length)res.all=evalSet(rank.map(x=>x.u));
+  return res;
+}
+function choose(res){
+  const ks=[1,2,3].filter(k=>res[k]);if(!ks.length)return null;
+  if(PL.max==="all")return res.all;
+  if(PL.max!=="auto"){const m=+PL.max;let b=null;for(const k of ks)if(k<=m&&(!b||res[k].cov>b.cov||(res[k].cov===b.cov&&res[k].pen<b.pen)))b=res[k];return b}
+  const maxCov=Math.max(...ks.map(k=>res[k].cov));let k=ks.find(k=>res[k].cov===maxCov);
+  while(res[k+1]&&res[k+1].cov===maxCov&&res[k].cost-res[k+1].cost>=8)k++;
+  return res[k];
+}
+function computePlan(){
+  const nE=LIST.length;if(!nE)return null;
+  const storeMode=!!(MPRES&&MPRES.stores&&MPRES.stores.length&&MPRES.sig===sigOf());
+  const cell=[];let U,dist=null,meta;
+  if(storeMode){
+    const ST=MPRES.stores;meta=Object.fromEntries(ST.map(s=>[s.id,s]));U=ST.map(s=>s.id);dist=u=>meta[u].dist||0;
+    LIST.forEach((e,i)=>{cell[i]={};const oc=offerCands(e),ids=MPRES.idsPer[i]||[];
+      for(const s of ST){let b=null;
+        for(const id of ids){const p=s.prices[id];if(p&&(!b||p.price<b.price))b={price:p.price,name:p.name,promo:p.promo}}
+        const o=oc.find(o=>o.store===s.chain&&o.price!=null);
+        if(o&&(!b||o.price<b.price))b={price:o.price,name:o.name+(o.size?" · "+o.size:""),o,promo:"Ofertă catalog"};
+        if(b)cell[i][s.id]=b}});
+  }else{
+    U=Object.keys(STORES);meta=Object.fromEntries(U.map(k=>[k,{id:k,chain:k,name:STORES[k].name}]));
+    LIST.forEach((e,i)=>{cell[i]={};for(const o of offerCands(e)){if(!cell[i][o.store])cell[i][o.store]={price:o.price,name:o.name+(o.size?" · "+o.size:""),o}}});
+  }
+  const alts=LIST.map((e,i)=>Object.entries(cell[i]).map(([u,c])=>({u,...c})).sort(byP));
+  LIST.forEach((e,i)=>{if(e.prefer&&cell[i][e.prefer])cell[i]={[e.prefer]:cell[i][e.prefer]}});
+  const res=optimize(U,cell,nE,dist),best=choose(res);
+  return {storeMode,res,best,meta,alts,cell};
+}
+const sigOf=()=>LIST.map(e=>e.t+"|"+(e.pick||"")+"|"+(e.mp?.id||"")).join("¦")+"@"+(LOC?LOC.lat+","+LOC.lon:"")+"@"+PL.km;
+
+// --- Monitorul Prețurilor (Consiliul Concurenței) — prin OferteRomania.exe
+const MPC={};
+const mpGet=async p=>{const r=await fetch("/api/mp/"+p);if(!r.ok)throw new Error(r.status);return r.json()};
+async function mpSearch(t){if(MPC[t])return MPC[t];const j=await mpGet("GetCatalogProductsByNameNetwork?prodname="+encodeURIComponent(t));return MPC[t]=(j.Items||[]).filter(x=>tmatch(t,x.name))}
+// la un cuvânt generic („lapte”) păstrăm produsele al căror nume ÎNCEPE cu el (sau îl are după marcă), nu „ciocolată cu lapte”
+async function mpIds(e){if(e.mp)return[e.mp.id];if(e.pick)return[];const L=await mpSearch(e.t);
+  const H=L.filter(x=>headOk(e.t,x.name));
+  return(H.length?H:L).slice(0,25).map(x=>x.id)}
+const CHAINS={lidl:"lidl",kaufland:"kaufland",carrefour:"carrefour",profi:"profi",megaimage:"megaimage",penny:"penny",auchan:"auchan",cora:"cora",selgros:"selgros",supeco:"supeco"};
+const chainOf=s=>{const f=((s.logo&&s.logo.logouri)||(s.retailnetwork&&s.retailnetwork.Logo&&s.retailnetwork.Logo.logouri)||"").split("/").pop().replace(/\.png$/i,"").replace(/[^a-z]/gi,"").toLowerCase();return CHAINS[f]||f||"alt"};
+async function runMP(){
+  if(!MP||!LOC||!LIST.length)return;
+  const sig=sigOf();PL.busy=true;renderPlanner();
+  try{
+    const idsPer=await Promise.all(LIST.map(e=>mpIds(e).catch(()=>[])));
+    const all=[...new Set(idsPer.flat())];let stores=[];
+    if(all.length){const j=await mpGet(`GetStoresForProductsByLatLon?lat=${LOC.lat}&lon=${LOC.lon}&buffer=${PL.km*1000}&csvprodids=${all.join(",")}&OrderBy=dist`);stores=j.Items||[]}
+    MPRES={sig,idsPer,when:new Date(),stores:stores.map(s=>({id:"m"+s.id,name:s.name,chain:chainOf(s),addr:(s.addr&&s.addr.addrstring)||"",lat:s.addr&&s.addr.location&&s.addr.location.Lat,lon:s.addr&&s.addr.location&&s.addr.location.Lon,dist:s.distance,upd:s.lastupdate,
+      prices:Object.fromEntries((s.Products||[]).filter(p=>p.price!=null&&p.catprod).map(p=>[p.catprod.id,{price:p.price,name:p.name,promo:p.promo}]))}))};
+  }catch(e){MPRES={sig,err:true}}
+  PL.busy=false;PL.route=null;renderPlanner();
+}
+const schedMP=()=>{clearTimeout(mpT);if(MP&&LOC&&LIST.length)mpT=setTimeout(runMP,500)};
+
+// --- locație
+function geoLocate(){return new Promise((res,rej)=>{if(!navigator.geolocation||!window.isSecureContext)return rej(new Error("insecure"));
+  navigator.geolocation.getCurrentPosition(p=>res({lat:+p.coords.latitude.toFixed(5),lon:+p.coords.longitude.toFixed(5),label:"Locația mea"}),rej,{timeout:12000,maximumAge:600000})})}
+async function geocode(q){const r=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ro&accept-language=ro&q="+encodeURIComponent(q));const j=await r.json();if(!j[0])throw new Error("nf");
+  return{lat:+(+j[0].lat).toFixed(5),lon:+(+j[0].lon).toFixed(5),label:j[0].display_name.split(",").slice(0,2).join(",")}}
+function setLoc(l){LOC=l;ls.set("oferte-loc",l);PL.locErr="";PL.route=null;renderPlanner();schedMP()}
+
+// --- traseu
+const hav=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dn=r(b.lon-a.lon),h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+function orderStops(o,S){if(S.length<2)return S;let best=null,bd=1e18;const perm=(rest,cur,d,last)=>{if(d>=bd)return;if(!rest.length){bd=d;best=cur.slice();return}
+  rest.forEach((s,i)=>{cur.push(s);perm(rest.filter((_,j)=>j!==i),cur,d+hav(last,s),s);cur.pop()})};perm(S,[],0,o);return best}
+const mapsUrl=(o,S)=>{const p=s=>s.lat+","+s.lon;const last=S[S.length-1];return"https://www.google.com/maps/dir/?api=1&travelmode=driving"+(o?"&origin="+p(o):"")+"&destination="+(last.lat!=null?p(last):encodeURIComponent(last.q))+(S.length>1?"&waypoints="+S.slice(0,-1).map(s=>s.lat!=null?p(s):encodeURIComponent(s.q)).join("|"):"")};
+const OSMN={lidl:"Lidl",kaufland:"Kaufland",carrefour:"Carrefour",profi:"Profi",dedeman:"Dedeman",brico:"Brico",leroy:"Leroy Merlin",hornbach:"Hornbach",megaimage:"Mega Image",penny:"Penny",auchan:"Auchan",cora:"Cora"};
+async function nearestBranches(chains){
+  const out={};for(const R of[8000,40000]){const need=chains.filter(c=>!out[c]);if(!need.length)break;
+    const q=`[out:json][timeout:25];nwr["shop"]["name"~"^(${need.map(c=>OSMN[c]).join("|")})",i](around:${R},${LOC.lat},${LOC.lon});out center 400;`;
+    const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}});const j=await r.json();
+    for(const el of j.elements||[]){const n=(el.tags&&el.tags.name)||"",lat=el.lat??(el.center&&el.center.lat),lon=el.lon??(el.center&&el.center.lon);if(lat==null)continue;
+      for(const c of need)if(norm(n).startsWith(norm(OSMN[c]))){const d=hav(LOC,{lat,lon})*(/express/i.test(n)?2:1);
+        if(!out[c]||d<out[c].sc){const t=el.tags||{};out[c]={sc:d,lat,lon,name:n,addr:[t["addr:street"],t["addr:housenumber"],t["addr:city"]].filter(Boolean).join(" "),dist:hav(LOC,{lat,lon})}}}}}
+  return out}
+async function makeRoute(plan){
+  const set=plan.best.set;
+  if(!LOC){PL.route={err:"Alege întâi locația (mai sus), ca să calculez traseul de la tine."};renderPlanner();return}
+  if(plan.storeMode){const S=set.map(u=>{const s=plan.meta[u];return{key:u,chain:s.chain,lat:s.lat,lon:s.lon,name:s.name,addr:s.addr,dist:s.dist}});
+    const O=orderStops(LOC,S);PL.route={stops:O,url:mapsUrl(LOC,O),km:O.reduce((a,s,i)=>a+hav(i?O[i-1]:LOC,s),0)};renderPlanner();return}
+  PL.route={busy:true};renderPlanner();
+  try{const br=await nearestBranches(set);const S=set.map(c=>br[c]?{key:c,chain:c,...br[c]}:{key:c,chain:c,q:STORES[c].name,name:STORES[c].name+" (cel mai apropiat)",addr:""});
+    const known=S.filter(s=>s.lat!=null),O=[...orderStops(LOC,known),...S.filter(s=>s.lat==null)];
+    PL.route={stops:O,url:mapsUrl(LOC,O),km:known.length?O.filter(s=>s.lat!=null).reduce((a,s,i,A)=>a+hav(i?A[i-1]:LOC,s),0):null}}
+  catch(e){const S=set.map(c=>({key:c,chain:c,q:STORES[c].name,name:STORES[c].name,addr:""}));PL.route={stops:S,url:mapsUrl(LOC,S),warn:"Nu am putut găsi filialele exacte; Google Maps va alege magazinele după nume."}}
+  renderPlanner()}
+
+// --- interfață
+function renderPlanner(){
+  const el=document.getElementById("planner");if(!el)return;
+  const oq=document.getElementById("addq"),keep=oq?{v:oq.value,f:document.activeElement===oq}:null;
+  const _wire=wirePlanner;wirePlanner=()=>{_wire();wirePlanner=_wire;if(keep){const n=document.getElementById("addq");n.value=keep.v;if(keep.f)n.focus()}};
+  const plan=computePlan();PLANKEYS=new Set();
+  if(plan&&plan.best)plan.best.ch.forEach(c=>{if(c&&c.o)PLANKEYS.add(keyOf(c.o))});
+  const stale=MP&&LOC&&LIST.length&&(!MPRES||MPRES.sig!==sigOf())&&!PL.busy;
+  let h=`<div class="planner" id="lista"><h2>🛒 Lista de cumpărături</h2>
+  <div class="lead">Scrie ce vrei să cumperi. Aplicația caută cel mai bun preț pentru fiecare produs, alege magazinele cele mai avantajoase și îți face traseul.</div>
+  <form class="addrow" id="addf" autocomplete="off"><div style="position:relative;flex:1;display:flex;min-width:0"><input id="addq" placeholder="Ex: lapte, ouă, cafea Jacobs, ulei… (poți separa prin virgulă)" autocomplete="off"><div id="psug" class="psug" hidden></div></div><button class="btnp">＋ Adaugă</button></form>`;
+  if(LIST.length&&MP&&LIST.some(e=>!e.pick&&!e.mp))h+=`<div class="pempty" style="margin-top:8px">💡 Pentru o comparație exactă, alege produsul din sugestiile care apar când scrii (ex. „Lapte Zuzu 3.5% 1l”). La un cuvânt general, aplicația ia cel mai ieftin produs de acel tip din fiecare magazin.</div>`;
+  if(LIST.length)h+=`<div class="lchips">${LIST.map((e,i)=>`<span class="lchip${plan&&plan.best&&!plan.best.ch[i]?" miss":""}">${esc(e.mp?e.mp.name:e.t)}<button data-ldel="${i}" title="Șterge">×</button></span>`).join("")}</div>`;
+  // locație + sursă prețuri
+  h+=`<div class="popts">📍 ${LOC?`<b style="color:var(--ink)">${esc(LOC.label)}</b>`:"Locația ta:"}
+    <button class="chip" data-geo="1">Folosește locația mea</button>
+    <form id="locf" style="display:inline-flex;gap:6px"><input id="locq" placeholder="sau scrie orașul / adresa" style="padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:13px;width:190px"><button class="chip">OK</button></form>
+    ${MP?`<span>Rază: <select id="pkm">${[2,5,10,20].map(k=>`<option ${PL.km==k?"selected":""} value="${k}">${k} km</option>`).join("")}</select></span>`:""}</div>`;
+  if(PL.locErr)h+=`<div class="pempty">⚠️ ${esc(PL.locErr)}</div>`;
+  h+=`<div class="popts">Câte magazine vrei să vizitezi? <span class="seg">${[["auto","Recomandat"],["1","1"],["2","2"],["3","3"],["all","Oricâte"]].map(([k,l])=>`<button data-pmax="${k}" class="${PL.max===k?"on":""}">${l}</button>`).join(" ")}</span></div>`;
+  const src=plan&&plan.storeMode?`Prețuri la raft de azi din <a href="https://monitorulpreturilor.info" target="_blank" rel="noopener">Monitorul Prețurilor</a> (Consiliul Concurenței) pentru magazinele pe o rază de ${PL.km} km + ofertele din cataloage.`
+    :MP?(LOC?(PL.busy?"Caut prețurile la raft în magazinele din jur…":MPRES&&MPRES.err?"⚠️ Monitorul Prețurilor nu răspunde acum; folosesc doar ofertele din cataloage.":MPRES&&!MPRES.stores?.length&&!stale?"Nu am găsit aceste produse în magazinele din rază; mărește raza. Până atunci folosesc ofertele din cataloage.":"Caut prețurile la raft…"):"Alege locația ca să compar <b>prețurile la raft din toate magazinele din jur</b> (nu doar ofertele).")
+    :"Compar ofertele din cataloage. Pentru prețurile obișnuite la raft din toate magazinele din jur, deschide aplicația prin <b>OferteRomania.exe</b> pe PC (sau pe telefon prin codul QR).";
+  h+=`<div class="pempty">${PL.busy?"⏳ ":""}${src}</div>`;
+  if(!LIST.length){el.innerHTML=h+`</div>`;wirePlanner();return}
+  if(!plan.best){h+=`<div class="pempty">Niciun produs din listă nu are deocamdată ${plan.storeMode?"preț în magazinele din rază":"ofertă în cataloage"}.</div></div>`;el.innerHTML=h;wirePlanner();return}
+  const B=plan.best,groups={};B.ch.forEach((c,i)=>{if(c)(groups[c.u]=groups[c.u]||[]).push(i)});
+  let order=B.set;if(PL.route&&PL.route.stops){const o=PL.route.stops.map(s=>s.key);order=[...o.filter(u=>groups[u]),...B.set.filter(u=>!o.includes(u))]}
+  let save=0;
+  h+=`<div class="pgrid">${order.filter(u=>groups[u]).map((u,n)=>{const m=plan.meta[u],S=smeta(m.chain);let sub=0;
+    const lines=groups[u].map(i=>{const c=B.ch[i],e=LIST[i];sub+=c.price||0;if(c.o&&c.o.old&&c.o.price)save+=c.o.old-c.o.price;
+      const al=plan.alts[i];
+      const sel=al.length>1?`<select class="palt" data-alt="${i}"><option value="">${e.prefer?"↺ Revino la alegerea automată":"Alege alt magazin ("+al.length+")…"}</option>${al.slice(0,15).map(a=>`<option value="${esc(a.u)}">${esc(smeta(plan.meta[a.u].chain).name)}${plan.storeMode?" · "+esc(plan.meta[a.u].name).slice(0,28)+" ("+(plan.meta[a.u].dist??"?")+" km)":""} — ${a.price!=null?fmtP(a.price)+" lei":"−"+a.o.disc+"%"} · ${esc(a.name).slice(0,40)}</option>`).join("")}</select>`:"";
+      return `<li class="${e.done?"done":""}"><label><input type="checkbox" data-done="${i}" ${e.done?"checked":""}><span class="pn">${esc(e.mp?e.mp.name:e.t)}<i>${esc(c.name)}${c.promo?` · <b style="color:var(--hot)">${esc(c.promo)}</b>`:""}${c.o&&c.o.app?" · cu card/aplicație":""}</i></span></label><span class="pp">${c.price!=null?fmtP(c.price)+" lei":"−"+c.o.disc+"%"}${c.o&&c.o.old?`<s>${fmtP(c.o.old)}</s>`:""}</span>${sel}</li>`}).join("");
+    return `<div class="pstore" style="--c:${S.color}"><div class="psh"><span class="stopn">${n+1}</span><div><b>${S.name}</b>${plan.storeMode?`<div style="font-size:12px;color:var(--muted)">${esc(m.name)} · ${esc(m.addr)}${m.dist!=null?" · "+m.dist+" km":""}</div>`:""}</div><small>${groups[u].length} ${groups[u].length===1?"produs":"produse"}<br><b style="color:var(--ink)">${fmtP(sub)} lei</b></small></div><ul>${lines}</ul></div>`}).join("")}</div>`;
+  const miss=LIST.map((e,i)=>B.ch[i]?null:esc(e.mp?e.mp.name:e.t)).filter(Boolean);
+  if(miss.length)h+=`<div class="pempty">Fără ${plan.storeMode?"preț găsit în magazinele alese":"ofertă acum"}: <b>${miss.join(", ")}</b>${plan.storeMode?"":" — le cumperi de unde vrei, la preț normal."}</div>`;
+  // sugestie: încă un magazin
+  const k=B.set.length,nx=plan.res[k+1];
+  if(PL.max!=="all"&&nx){if(nx.cov>B.cov)h+=`<div class="phint">Cu încă un magazin găsești ${nx.cov-B.cov===1?"încă un produs":`încă ${nx.cov-B.cov} produse`}. <button data-pmax="${k+1}">Arată planul cu ${k+1} magazine</button></div>`;
+    else if(nx.cov===B.cov&&B.cost-nx.cost>=3)h+=`<div class="phint">Dacă mergi și într-un al ${k+1}-lea magazin economisești încă ${fmtP(B.cost-nx.cost)} lei. <button data-pmax="${k+1}">Arată planul</button></div>`}
+  h+=`<div class="ptot"><div><div class="big">Total: ${fmtP(B.cost)} lei</div>${save>0.01?`<div class="sv">Economisești ${fmtP(save)} lei față de prețul normal</div>`:""}</div>
+    <div class="acts"><button class="btnp" data-route="1">🗺️ ${PL.route&&PL.route.stops?"Recalculează traseul":"Traseul meu"}</button><button class="btnp sec" data-share="1">📤 Trimite lista</button><button class="btnp sec" data-lclear="1">Golește</button></div></div>`;
+  if(PL.route){const R=PL.route;
+    if(R.busy)h+=`<div class="proute">⏳ Caut cele mai apropiate magazine…</div>`;
+    else if(R.err)h+=`<div class="proute">⚠️ ${esc(R.err)}</div>`;
+    else h+=`<div class="proute"><b>Traseul recomandat${R.km?` · ~${R.km.toFixed(1)} km în linie dreaptă`:""}</b><ol>${R.stops.map(s=>`<li><b>${esc(smeta(s.chain).name)}</b> — ${esc(s.name)}${s.addr?`, <small>${esc(s.addr)}</small>`:""}${s.dist!=null?` <small>(${(+s.dist).toFixed(1)} km de tine)</small>`:""}</li>`).join("")}</ol>
+      ${R.warn?`<div class="pempty">${esc(R.warn)}</div>`:""}<a class="btnp" href="${R.url}" target="_blank" rel="noopener">Deschide traseul în Google Maps ↗</a></div>`}
+  el.innerHTML=h+`</div>`;wirePlanner();
+}
+function addItems(txt){const parts=txt.split(/[,;\n]+/).map(s=>s.trim()).filter(Boolean);for(const t of parts)if(!LIST.some(e=>!e.pick&&!e.mp&&norm(e.t)===norm(t)))LIST.push({t});listChanged()}
+function listChanged(){saveList();PL.route=null;render();schedMP()}
+function showSug(){const box=document.getElementById("psug");if(!box)return;if(!SUG.length){box.hidden=true;return}
+  box.hidden=false;box.innerHTML=SUG.map((s,i)=>`<div class="sg" data-sg="${i}">${s.o?`<span class="store" style="background:${STORES[s.o.store].color}">${STORES[s.o.store].name}</span> ${esc(s.o.name)} <small>${esc(s.o.size||"")}</small> <b>${s.o.price!=null?fmtP(s.o.price)+" lei":""}</b>`:`🔎 ${esc(s.name)}`}</div>`).join("")}
+var wirePlanner=function(){
+  const f=document.getElementById("addf"),q=document.getElementById("addq");
+  f.onsubmit=ev=>{ev.preventDefault();if(q.value.trim()){const v=q.value;q.value="";addItems(v);setTimeout(()=>document.getElementById("addq")?.focus(),0)}};
+  q.oninput=()=>{const t=q.value.trim();clearTimeout(sugT);if(t.length<2||/[,;]/.test(t)){SUG=[];showSug();return}
+    const off=items.filter(isActive).filter(it=>tmatch(t,it.name+" "+(it.q||""))).sort(byP).slice(0,4).map(o=>({o}));SUG=off;showSug();
+    if(MP)sugT=setTimeout(()=>mpSearch(t).then(L=>{if(q.value.trim()!==t)return;SUG=[...off,...L.slice(0,8).map(x=>({id:x.id,name:x.name}))];showSug()}).catch(()=>{}),300)};
+  q.onblur=()=>setTimeout(()=>{SUG=[];showSug()},200);
+  const lf=document.getElementById("locf");lf.onsubmit=async ev=>{ev.preventDefault();const v=document.getElementById("locq").value.trim();if(!v)return;try{setLoc(await geocode(v))}catch(e){PL.locErr="Nu am găsit localitatea „"+v+"”.";renderPlanner()}};
+  const km=document.getElementById("pkm");if(km)km.onchange=()=>{PL.km=+km.value;savePL();PL.route=null;renderPlanner();schedMP()};
+}
+document.addEventListener("mousedown",e=>{const s=e.target.closest("[data-sg]");if(!s)return;e.preventDefault();const x=SUG[+s.dataset.sg];
+  if(x.o){const k=keyOf(x.o);if(!LIST.some(e=>e.pick===k))LIST.push({t:x.o.name,pick:k})}else LIST.push({t:x.name,mp:{id:x.id,name:x.name}});
+  SUG=[];document.getElementById("addq").value="";listChanged()});
+document.addEventListener("click",async e=>{
+  const t=e.target;let b;
+  if(b=t.closest("[data-ldel]")){LIST.splice(+b.dataset.ldel,1);listChanged()}
+  else if(b=t.closest("[data-pmax]")){PL.max=b.dataset.pmax;savePL();PL.route=null;renderPlanner()}
+  else if(t.closest("[data-lclear]")){if(confirm("Golești lista de cumpărături?")){LIST=[];MPRES=null;listChanged()}}
+  else if(t.closest("[data-geo]")){try{setLoc(await geoLocate())}catch(err){PL.locErr=window.isSecureContext?"Nu am primit acces la locație. Permite locația în browser sau scrie orașul.":"Aici browserul nu dă acces la locație; scrie orașul sau adresa.";renderPlanner()}}
+  else if(t.closest("[data-route]")){const p=computePlan();if(p&&p.best)makeRoute(p)}
+  else if(t.closest("[data-share]")){const p=computePlan();if(!p||!p.best)return;const B=p.best,g={};B.ch.forEach((c,i)=>{if(c)(g[c.u]=g[c.u]||[]).push(`• ${LIST[i].mp?LIST[i].mp.name:LIST[i].t}: ${c.name} — ${c.price!=null?fmtP(c.price)+" lei":""}`)});
+    const txt="🛒 Lista de cumpărături\n\n"+Object.entries(g).map(([u,L])=>smeta(p.meta[u].chain).name+(p.storeMode?" ("+p.meta[u].name+")":"")+"\n"+L.join("\n")).join("\n\n")+`\n\nTotal: ${fmtP(B.cost)} lei`+(PL.route&&PL.route.url?"\nTraseu: "+PL.route.url:"");
+    if(navigator.share)navigator.share({title:"Lista de cumpărături",text:txt}).catch(()=>{});else navigator.clipboard.writeText(txt).then(()=>{t.textContent="Copiat ✓"}).catch(()=>{})}
+});
+document.addEventListener("change",e=>{const t=e.target;
+  if(t.dataset.done!=null){LIST[+t.dataset.done].done=t.checked;saveList();t.closest("li").classList.toggle("done",t.checked)}
+  if(t.dataset.alt!=null){const i=+t.dataset.alt,p=computePlan(),c=t.value&&p.cell[i][t.value];
+    if(!t.value){delete LIST[i].prefer}else if(c&&c.o&&!p.storeMode){LIST[i]={t:LIST[i].t,pick:keyOf(c.o)}}else{LIST[i].prefer=t.value}
+    saveList();PL.route=null;render()}
+});
+fetch("/api/mp/ping").then(r=>{MP=r.ok;if(MP){renderPlanner();schedMP()}}).catch(()=>{MP=false});
+
 // Fotografii reale din Open Food Facts, doar când aplicația rulează prin OferteRomania.exe
 let PHOTO_API=false;const PH={};
 const phObs=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){phObs.unobserve(e.target);loadPhoto(e.target)}}),{rootMargin:"300px"}):null;
@@ -354,7 +605,7 @@ document.addEventListener("click",e=>{
   if(s){st.store=s.dataset.s;renderStatic();render()}
   const sc=e.target.closest("[data-sec]");
   if(sc){st.sec=sc.dataset.sec;st.store="all";try{history.replaceState(null,"",st.sec==="brico"?"#bricolaj":"#")}catch(_){location.hash=st.sec==="brico"?"bricolaj":""};renderStatic();render();window.scrollTo(0,0)}
-  if(f){const k=decodeURIComponent(f.dataset.f);fav.has(k)?fav.delete(k):fav.add(k);ls.set("oferte-fav2",[...fav]);render()}
+  if(f){const k=decodeURIComponent(f.dataset.f);if(fav.has(k))LIST=LIST.filter(e=>e.pick!==k);else{const o=items.find(it=>keyOf(it)===k);LIST.push({t:o?o.name:k.split("|")[1],pick:k})}PL.route=null;saveList();render()}
 });
 ["q","sort","noapp","onlyfav"].forEach(id=>document.getElementById(id).addEventListener("input",render));
 
@@ -382,7 +633,7 @@ fetch("/api/info").then(r=>r.ok?r.json():null).then(info=>{
 fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{DATA=d;items=d.offers;renderStatic();render()})
  .catch(()=>{document.getElementById("upd").textContent="Nu am putut încărca ofertele. Reîncarcă pagina.";});
 
-if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+if("serviceWorker" in navigator&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 </script>
 </body>
 </html>
