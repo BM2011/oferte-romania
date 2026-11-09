@@ -386,7 +386,10 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 function offerCands(e){
   const act=items.filter(isActive);
   if(e.pick){const o=act.find(it=>keyOf(it)===e.pick);if(o)return[o]}
-  return act.filter(it=>goodMatch(e.t,it.name)||(it.q&&goodMatch(e.t,it.q+" "+it.name))).sort(byP);
+  const L=act.filter(it=>goodMatch(e.t,it.name)||(it.q&&goodMatch(e.t,it.q+" "+it.name)));
+  // nu amesteca „cafea” (supermarket) cu „măsuță de cafea” (bricolaj): păstrează secțiunea cu mai multe potriviri
+  const nb=L.filter(it=>secOf(it.store)==="brico").length,ns=L.length-nb;
+  return(nb&&ns?L.filter(it=>(secOf(it.store)==="brico")===(nb>ns)):L).sort(byP);
 }
 // --- optimizare: ce magazine (max 3) acoperă cele mai multe produse la cel mai mic cost
 function optimize(U,cell,nE,dist){
@@ -473,12 +476,17 @@ function orderStops(o,S){if(S.length<2)return S;let best=null,bd=1e18;const perm
 const mapsUrl=(o,S)=>{const p=s=>s.lat+","+s.lon;const last=S[S.length-1];return"https://www.google.com/maps/dir/?api=1&travelmode=driving"+(o?"&origin="+p(o):"")+"&destination="+(last.lat!=null?p(last):encodeURIComponent(last.q))+(S.length>1?"&waypoints="+S.slice(0,-1).map(s=>s.lat!=null?p(s):encodeURIComponent(s.q)).join("|"):"")};
 const OSMN={lidl:"Lidl",kaufland:"Kaufland",carrefour:"Carrefour",profi:"Profi",dedeman:"Dedeman",brico:"Brico",leroy:"Leroy Merlin",hornbach:"Hornbach",megaimage:"Mega Image",penny:"Penny",auchan:"Auchan",cora:"Cora"};
 async function nearestBranches(chains){
-  const out={};for(const R of[8000,40000]){const need=chains.filter(c=>!out[c]);if(!need.length)break;
-    const q=`[out:json][timeout:25];nwr["shop"]["name"~"^(${need.map(c=>OSMN[c]).join("|")})",i](around:${R},${LOC.lat},${LOC.lon});out center 400;`;
-    const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}});const j=await r.json();
-    for(const el of j.elements||[]){const n=(el.tags&&el.tags.name)||"",lat=el.lat??(el.center&&el.center.lat),lon=el.lon??(el.center&&el.center.lon);if(lat==null)continue;
-      for(const c of need)if(norm(n).startsWith(norm(OSMN[c]))){const d=hav(LOC,{lat,lon})*(/express/i.test(n)?2:1);
-        if(!out[c]||d<out[c].sc){const t=el.tags||{};out[c]={sc:d,lat,lon,name:n,addr:[t["addr:street"],t["addr:housenumber"],t["addr:city"]].filter(Boolean).join(" "),dist:hav(LOC,{lat,lon})}}}}}
+  // cea mai apropiată filială a fiecărui lanț, din OpenStreetMap (Nominatim; max. 1 cerere/secundă)
+  const out={};
+  for(const c of chains){
+    for(const d of[0.12,0.45]){
+      try{const r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=40&countrycodes=ro&bounded=1&accept-language=ro&viewbox=${LOC.lon-d},${LOC.lat+d},${LOC.lon+d},${LOC.lat-d}&q=${encodeURIComponent(OSMN[c])}`);
+        const j=await r.json();
+        for(const x of j){const n=x.name||"";if(!norm(n).startsWith(norm(OSMN[c])))continue;const lat=+x.lat,lon=+x.lon,dist=hav(LOC,{lat,lon}),sc=dist*(/express/i.test(n)?2:1);
+          if(!out[c]||sc<out[c].sc)out[c]={sc,lat,lon,name:n,addr:x.display_name.split(",").slice(1,4).join(",").trim(),dist}}
+      }catch(e){}
+      await new Promise(r=>setTimeout(r,1100));
+      if(out[c])break}}
   return out}
 async function makeRoute(plan){
   const set=plan.best.set;
@@ -536,7 +544,7 @@ function renderPlanner(){
   h+=`<div class="ptot"><div><div class="big">Total: ${fmtP(B.cost)} lei</div>${save>0.01?`<div class="sv">Economisești ${fmtP(save)} lei față de prețul normal</div>`:""}</div>
     <div class="acts"><button class="btnp" data-route="1">🗺️ ${PL.route&&PL.route.stops?"Recalculează traseul":"Traseul meu"}</button><button class="btnp sec" data-share="1">📤 Trimite lista</button><button class="btnp sec" data-lclear="1">Golește</button></div></div>`;
   if(PL.route){const R=PL.route;
-    if(R.busy)h+=`<div class="proute">⏳ Caut cele mai apropiate magazine…</div>`;
+    if(R.busy)h+=`<div class="proute">⏳ Caut cele mai apropiate magazine (câteva secunde)…</div>`;
     else if(R.err)h+=`<div class="proute">⚠️ ${esc(R.err)}</div>`;
     else h+=`<div class="proute"><b>Traseul recomandat${R.km?` · ~${R.km.toFixed(1)} km în linie dreaptă`:""}</b><ol>${R.stops.map(s=>`<li><b>${esc(smeta(s.chain).name)}</b> — ${esc(s.name)}${s.addr?`, <small>${esc(s.addr)}</small>`:""}${s.dist!=null?` <small>(${(+s.dist).toFixed(1)} km de tine)</small>`:""}</li>`).join("")}</ol>
       ${R.warn?`<div class="pempty">${esc(R.warn)}</div>`:""}<a class="btnp" href="${R.url}" target="_blank" rel="noopener">Deschide traseul în Google Maps ↗</a></div>`}
