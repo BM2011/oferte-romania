@@ -1,4 +1,4 @@
-name: Publica pe GitHub Pages
+name: Publica aplicatia pe GitHub Pages
 on:
   push:
     branches: [main]
