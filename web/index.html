@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oferte magazine România</title>
+<meta name="theme-color" content="#d6332a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Oferte">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f5f2;--card:#fff;--ink:#1b1c1f;--muted:#6b6e76;--line:#e6e3dc;--accent:#0f7a4f;--hot:#d6332a;--warn:#c27a00;--lidl:#0050aa;--kaufland:#e10915;--carrefour:#1e5bb8;--profi:#e8590c;--dedeman:#b5121b;--brico:#6a2c91;--leroy:#4a9a1e;--hornbach:#f28c00}
+@media (prefers-color-scheme:dark){:root{--bg:#141518;--card:#1d1f23;--ink:#eceae4;--muted:#9a9ca3;--line:#2c2f35;--accent:#3fbf86;--hot:#ff6a5f;--warn:#e8a83a}}
+*{box-sizing:border-box}
+*{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.pic img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);object-fit:contain;opacity:0;transition:opacity .3s}
+.pic.photo{background:#fff!important}.pic.photo img{opacity:1}.pic.photo .emo{opacity:0}
+.emo{transition:opacity .3s}
+@media (prefers-color-scheme:dark){.pic{background:color-mix(in srgb,var(--tint) 16%,var(--card))!important}.pic.photo{background:#f4f4f2!important}}
+.pic .store,.pic .disc{z-index:2}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px}
+header{padding:26px clamp(16px,3vw,48px) 6px;text-align:center}
+header .phone{margin:10px 0 0 8px}
+h1{font-size:clamp(24px,2vw,32px);margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:14px}
+.wrap{padding:0 clamp(16px,3vw,48px) 48px}
+.campaigns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:14px 0 4px}
+.camp{flex:0 1 270px;text-align:left}
+#secs,#stores{justify-content:center}
+.camp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;border-left:5px solid var(--c)}
+.camp b{display:block;font-size:14px}.camp span{font-size:13px;color:var(--muted)}
+.camp a{font-size:13px;color:var(--c);font-weight:600;text-decoration:none}
+.toolbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px;border-bottom:1px solid var(--line);margin:8px 0 6px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}.row:last-child{margin-bottom:0}
+.seg button,.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 13px;border-radius:999px;font:inherit;font-size:13px;cursor:pointer;font-weight:500;white-space:nowrap}
+.secs button{font-size:15px;padding:9px 18px;font-weight:700}.secs small{opacity:.6;font-weight:500;margin-left:4px}
+.seg button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.catnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:0}
+.catnav a{flex:none;text-decoration:none;color:var(--ink);font-size:13px;padding:6px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+.catnav a small{color:var(--muted);margin-left:3px}
+input[type=search],select{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 12px;border-radius:10px;font:inherit;font-size:14px}
+.searchbox{flex:1;min-width:220px;position:relative;display:flex}
+.searchbox .sicon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
+input[type=search]#q{flex:1;width:100%;padding:12px 16px 12px 42px;font-size:15px;font-weight:500;border:2px solid #ff8a3d;background:#fff7ef;color:#1b1c1f;border-radius:12px;box-shadow:0 2px 10px rgba(255,138,61,.18);outline:none;transition:box-shadow .15s,border-color .15s}
+input[type=search]#q::placeholder{color:#9a6a45}
+input[type=search]#q:focus{border-color:#ff6a00;box-shadow:0 0 0 4px rgba(255,138,61,.3)}
+@media (prefers-color-scheme:dark){input[type=search]#q{background:#3a2a1e;color:#fff;border-color:#ff8a3d}input[type=search]#q::placeholder{color:#e8b48c}}
+label.tg{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center;cursor:pointer}
+section{scroll-margin-top:150px;margin-top:22px}
+section h2{font-size:19px;margin:0 0 10px;display:flex;align-items:baseline;gap:8px;letter-spacing:-.01em}
+section h2 small{font-size:13px;color:var(--muted);font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.card.expired{opacity:.5}
+.pic{height:clamp(118px,9vw,150px);display:flex;align-items:center;justify-content:center;font-size:62px;background:var(--tint);position:relative}
+.pic .store{position:absolute;left:10px;top:10px}
+.pic .disc{position:absolute;right:10px;top:10px}
+.body{padding:12px 13px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.store{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#fff;padding:3px 8px;border-radius:6px}
+.disc{font-weight:800;color:#fff;background:var(--hot);border-radius:8px;padding:3px 8px;font-size:13px}
+.disc.mech{background:var(--warn)}
+.name{font-weight:600;line-height:1.3;font-size:14.5px}
+.size{color:var(--muted);font-size:13px}
+.price{display:flex;align-items:baseline;gap:8px;margin-top:auto;flex-wrap:wrap}
+.now{font-size:21px;font-weight:800;letter-spacing:-.02em}
+.unit{font-size:12px;color:var(--muted);font-weight:500}
+.old{color:var(--muted);text-decoration:line-through;font-size:14px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font-size:12px;padding-right:28px}
+.tag{padding:2px 7px;border-radius:6px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.tag.app{color:var(--lidl);border-color:currentColor;background:transparent}
+.tag.soon{color:var(--hot);border-color:currentColor;background:transparent;font-weight:600}
+.tag.future{color:var(--accent);border-color:currentColor;background:transparent;font-weight:600}
+.cat-link{font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;padding:4px 0 0;align-self:flex-start}
+.cat-link:hover{text-decoration:underline}
+.star{position:absolute;right:8px;bottom:8px;border:none;background:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px}
+.star.on{color:#e6a700}
+.supers{margin:18px 0 6px;padding:16px;border-radius:18px;background:linear-gradient(135deg,#fff1e6,#ffe3e3);border:1px solid #f5c7b8}
+@media (prefers-color-scheme:dark){.supers{background:linear-gradient(135deg,#2a1d17,#2a1719);border-color:#4a2a22}}
+.supers h2{margin:0 0 4px;font-size:21px;letter-spacing:-.01em}
+.supers .lead{font-size:13px;color:var(--muted);margin-bottom:12px}
+.srow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,calc((100% - 11*12px)/12));gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.srow .card{scroll-snap-align:start;border-color:#f0b9a6}
+.srow .save{font-size:12px;font-weight:700;color:var(--hot)}
+.phone{margin-top:10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal[hidden]{display:none}
+.mbox{background:var(--card);color:var(--ink);border-radius:16px;padding:20px;max-width:360px;width:100%;text-align:center}
+.mbox h3{margin:0 0 8px}.mbox p{font-size:14px;color:var(--muted)}
+#qr{display:inline-block;background:#fff;padding:10px;border-radius:10px;margin:6px 0}
+#qr img,#qr canvas{display:block}
+.url{font-weight:700;color:var(--ink)!important;word-break:break-all}.hint{font-size:12px!important}
+#toTop{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.18);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;cursor:pointer}
+#toTop.show{opacity:1;pointer-events:auto}
+@media (max-width:700px){
+  body{font-size:14px}
+  header{padding:16px 12px 4px}
+  h1{font-size:22px}
+  .sub{font-size:12px}
+  .wrap{padding:0 12px 80px}
+  .campaigns{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+  .camp{flex:0 0 78%}
+  #stores{justify-content:flex-start}
+  .camp{scroll-snap-align:start}
+  .toolbar{position:static;padding:8px 0}
+  .row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .row::-webkit-scrollbar{display:none}
+  .row:has(#q){flex-wrap:wrap}
+  .searchbox{min-width:100%}
+  input[type=search]#q{font-size:16px}
+  select{flex:1;font-size:14px}
+  .secs button{flex:1;padding:10px 8px;font-size:14px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .card{border-radius:12px}
+  .pic{height:96px!important;font-size:46px}
+  .body{padding:9px 10px 11px;gap:4px}
+  .name{font-size:13px}
+  .size{font-size:12px}
+  .now{font-size:17px}
+  .old{font-size:12px}
+  .store{font-size:9.5px;padding:2px 6px}
+  .disc{font-size:11.5px;padding:2px 6px}
+  .meta{font-size:11px;padding-right:30px}
+  .star{font-size:22px;right:4px;bottom:4px;padding:6px}
+  section{scroll-margin-top:10px;margin-top:18px}
+  section h2{font-size:17px}
+  .supers{padding:12px;margin:12px -4px 4px;border-radius:14px}
+  .supers h2{font-size:18px}
+  .srow{grid-auto-columns:46%;gap:8px}
+  .save{font-size:11px}
+}padding:40px;text-align:center;color:var(--muted)}
+.list{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:14px}
+.list h3{margin:0 0 8px;font-size:15px}.list li{font-size:14px;margin:4px 0}.list .tot{font-weight:700;margin:8px 0}
+.bot{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--accent);font-weight:600;margin-top:6px}
+.bot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+footer{font-size:12px;color:var(--muted);line-height:1.6;margin-top:34px;border-top:1px solid var(--line);padding-top:14px}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Oferte magazine România</h1>
+  <div class="sub">Supermarket: Lidl · Kaufland · Carrefour · Profi — Bricolaj: Dedeman · Brico · Leroy Merlin · Hornbach</div>
+  <div class="bot" id="upd">Se încarcă…</div>
+  <button class="chip phone" id="phoneBtn" hidden>📱 Deschide pe telefon</button>
+</header>
+<div class="wrap">
+  <div class="campaigns" id="campaigns"></div>
+  <div class="toolbar">
+    <div class="row seg secs" id="secs"></div>
+    <div class="row seg" id="stores"></div>
+    <div class="row">
+      <div class="searchbox"><span class="sicon">🔍</span><input type="search" id="q" placeholder="Caută produs (ex: cafea, pui, cașcaval)…"></div>
+      <select id="sort">
+        <option value="disc">Cea mai mare reducere</option>
+        <option value="price">Preț crescător</option>
+        <option value="end">Expiră curând</option>
+      </select>
+      <label class="tg"><input type="checkbox" id="noapp"> Fără card/aplicație</label>
+      <label class="tg"><input type="checkbox" id="onlyfav"> ★ Lista mea</label>
+    </div>
+    <div class="row catnav" id="catnav"></div>
+  </div>
+  <div id="supers"></div>
+  <div id="sections"></div>
+  <div id="mylist"></div>
+  <footer id="foot"></footer>
+</div>
+<button id="toTop" aria-label="Sus">↑</button>
+<div id="phoneModal" class="modal" hidden><div class="mbox">
+  <h3>📱 Deschide pe telefon</h3>
+  <p>Conectează telefonul la <b>aceeași rețea Wi-Fi</b> ca acest calculator, apoi scanează codul cu camera:</p>
+  <div id="qr"></div>
+  <p class="url" id="lanUrl"></p>
+  <p class="hint">Pe telefon, din meniul browserului alege <b>„Adaugă pe ecranul de pornire”</b> ca s-o ai ca aplicație. Calculatorul trebuie să aibă OferteRomania.exe pornit.</p>
+  <button class="chip" id="phoneClose">Închide</button>
+</div>
+</div>
+
+<script>
+const STORES={
+  lidl:{name:"Lidl",dom:"lidl.ro",color:"var(--lidl)",catalog:"https://www.lidl.ro/c/cataloage-online/s10019911"},
+  kaufland:{name:"Kaufland",dom:"kaufland.ro",color:"var(--kaufland)",catalog:"https://www.kaufland.ro/cataloage-cu-reduceri.html"},
+  carrefour:{name:"Carrefour",dom:"carrefour.ro",color:"var(--carrefour)",catalog:"https://carrefour.ro/campanii/oferte-saptamanale"},
+  profi:{name:"Profi",dom:"profi.ro",color:"var(--profi)",catalog:"https://www.profi.ro/reviste-ro/"},
+  dedeman:{name:"Dedeman",dom:"dedeman.ro",color:"var(--dedeman)",catalog:"https://www.dedeman.ro/ro/black_friday.html",sec:"brico"},
+  brico:{name:"Brico",dom:"bricodepot.ro",color:"var(--brico)",catalog:"https://www.bricodepot.ro/black-friday/",sec:"brico"},
+  leroy:{name:"Leroy Merlin",dom:"leroymerlin.ro",color:"var(--leroy)",catalog:"https://www.leroymerlin.ro/",sec:"brico"},
+  hornbach:{name:"Hornbach",dom:"hornbach.ro",color:"var(--hornbach)",catalog:"https://www.hornbach.ro/",sec:"brico"}
+};
+const CATS={
+  fructe:["🥦","Fructe & legume","#e3f3dc"], carne:["🥩","Carne & pește","#f8e1dc"], lactate:["🧀","Lactate & mezeluri","#fbf0d2"],
+  camara:["🥫","Cămară","#f3e8db"], bauturi:["☕","Cafea & băuturi","#efe2d6"], dulciuri:["🍫","Dulciuri & snacks","#f5e0e8"],
+  animale:["🐾","Animale de companie","#e5eef8"], curatenie:["🧼","Curățenie & igienă","#dff2f3"],
+  electro:["📺","Electrocasnice & electronice","#e6e7f3"], casa:["🍳","Casă & bucătărie","#eeeae2"], copii:["🧸","Copii & îmbrăcăminte","#f1e4f4"],
+  scule:["🛠️","Scule & unelte","#e8e6e1","brico"], gradina:["🌿","Grădină & exterior","#e3f3dc","brico"], constructii:["🧱","Construcții & finisaje","#f3e6dc","brico"],
+  baie:["🚿","Baie & bucătărie","#dff2f3","brico"], electrice:["💡","Iluminat, electrice & smart","#fbf3d2","brico"], mobila:["🛋️","Mobilier & decor","#f1e4f4","brico"],
+  electrocasnice:["🔌","Electrocasnice & încălzire","#e6e7f3","brico"], auto:["🚗","Auto","#e5eef8","brico"], sezon:["🎄","Crăciun & sezon","#e3f0e3","brico"]
+};
+const SECTIONS={super:"🛒 Supermarket",brico:"🔨 Bricolaj"};
+const secOf=s=>STORES[s]?.sec||"super";
+// Imagine ilustrativă după cuvinte cheie din numele produsului (prima potrivire câștigă)
+const ICONS=[
+ ["compresor","🛞"],["ciocan","🔨"],["șlefuitor","🪵"],["geantă","🧰"],["fierăstrău","🪚"],["drujb","🪚"],["găurit","🪛"],["polizor","⚙️"],["clești","🔧"],["cheie","🔧"],["trusă","🧰"],
+ ["taburet","🪑"],["măsuț","🪑"],["scaun","🪑"],["saltea","🛏️"],["crăciun","🎄"],["stea","⭐"],["cabin","🚿"],["filtru","💧"],["șemineu","🔥"],["cameră","📷"],["redresor","🔋"],
+ ["parchet","🪵"],["riflaj","🪵"],["lamp","💡"],["pavilion","⛺"],["grătar","🍖"],
+ ["hrană","🐾"],["pisic","🐱"],["câini","🐶"],["așternut","🐱"],["detergent","🧺"],["dinți","🪥"],["spray","🧴"],["tigă","🍳"],["cuțit","🔪"],["espressor","☕"],["balsam","🧺"],["bere","🍺"],["coca-cola","🥤"],["ciocolat","🍫"],["căciul","🎅"],["bentiț","🎀"],["șunc","🍖"],
+ ["cartofi dulci","🍠"],["cartof","🥔"],["mere","🍎"],["ton","🐟"],["puiul","🍗"],
+ ["kaki","🟠"],["broccoli","🥦"],["rodi","🍎"],["portocal","🍊"],["clementin","🍊"],["lămâi","🍋"],["salat","🥬"],["ridiche","🥕"],["morcov","🥕"],
+ ["avocado","🥑"],["cartofi dulci","🍠"],["cartof","🥔"],["roșii pasate","🥫"],["roșii","🍅"],["ardei","🫑"],["mere","🍎"],["gutui","🍐"],["ciuperc","🍄"],
+ ["somon","🐟"],["ton","🐟"],["creveț","🦐"],["pui","🍗"],["cârna","🌭"],["crenvur","🌭"],["mici","🌭"],["vită","🥩"],["porc","🥩"],["cotlet","🥩"],
+ ["mozzarella","🧀"],["cașcaval","🧀"],["gouda","🧀"],["brânz","🧀"],["telemea","🧀"],["salam","🍖"],["muschi","🍖"],["jambon","🍖"],["piept de porc","🥓"],
+ ["cafea","☕"],["vin","🍷"],["ulei","🫒"],["orez","🍚"],["făină","🌾"],["mălai","🌽"],["porumb","🌽"],["fidea","🍜"],["spaghet","🍝"],["paste","🍝"],
+ ["linte","🫘"],["fasole","🫘"],["mazăre","🫛"],["zacusc","🫙"],["murați","🥒"],["castrave","🥒"],["vegeta","🧂"],["delikat","🧂"],["bază mâncare","🧂"],
+ ["toffifee","🍬"],["napolitan","🧇"],["biscui","🍪"],["grisine","🥖"],["baton","🍫"],
+ ["pisic","🐱"],["sheba","🐱"],["câini","🐶"],["canero","🐶"],["așternut","🐱"],
+ ["detergent","🧺"],["capsule","🧺"],["dinți","🪥"],["spray","🧴"],
+ ["tv","📺"],["mașină de spălat vase","🍽️"],["mașină de spălat","🫧"],["frigider","🧊"],["combin","🧊"],["microunde","📟"],["aragaz","🔥"],["plită","🔥"],
+ ["espressor","☕"],["rucsac","🎒"],["brățară","⌚"],["tigă","🍳"],["cuțit","🔪"],
+ ["telecomand","🚗"],["geacă","🧥"],["pantaloni","👖"],["lenjerie","👕"],["papu","🪆"]
+];
+function iconFor(o){ if(o.icon) return o.icon; const n=o.name.toLowerCase(); for(const [k,e] of ICONS){ if(k.length<=3? new RegExp("\\b"+k+"\\b").test(n) : n.includes(k)) return e } return CATS[o.cat]?.[0]||"🏷️" }
+
+const parse=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const MON=["ian","feb","mar","apr","mai","iun","iul","aug","sep","oct","nov","dec"];
+const fmtD=s=>{const d=parse(s);return d.getDate()+" "+MON[d.getMonth()]};
+const fmtP=n=>n.toLocaleString("ro-RO",{minimumFractionDigits:2,maximumFractionDigits:2});
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const TODAY=(()=>{const d=new Date();d.setHours(0,0,0,0);return d})();
+const ls={get(k,v){try{const x=localStorage.getItem(k);return x?JSON.parse(x):v}catch(e){return v}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+let DATA=null, items=[], fav=new Set(ls.get("oferte-fav2",[])), st={store:"all",sec:location.hash==="#bricolaj"?"brico":"super"};
+const keyOf=o=>o.store+"|"+o.name+"|"+o.size;
+
+function status(it){
+  const t=parse(it.to),f=parse(it.from),d=Math.round((t-TODAY)/864e5);
+  if(t<TODAY) return {k:"exp",txt:"Expirată"};
+  if(f>TODAY) return {k:"future",txt:"Din "+fmtD(it.from)};
+  if(d===0) return {k:"soon",txt:"Ultima zi azi"};
+  if(d===1) return {k:"soon",txt:"Expiră mâine"};
+  return {k:"ok",txt:"Până pe "+fmtD(it.to)};
+}
+const dnum=it=>typeof it.disc==="number"?it.disc:(/^\d+\+\d+$/.test(it.disc||"")?Math.round(100*+it.disc.split("+")[1]/(+it.disc.split("+")[0]+ +it.disc.split("+")[1])):0);
+
+// Link spre produs: pagina exactă dacă o știm; altfel căutarea pe site-ul magazinului
+function productLink(it){
+  const S=STORES[it.store];
+  if(it.url) return {href:it.url,label:"Vezi produsul ↗"};
+  const name=it.name.replace(/[–—]/g," ").replace(/\s+/g," ").trim();
+  const q=encodeURIComponent(name);
+  switch(it.store){
+    case "carrefour": return {href:"https://carrefour.ro/catalogsearch/result/?q="+q,label:"Caută la Carrefour ↗"};
+    case "lidl": return {href:"https://www.lidl.ro/q/search?q="+q,label:"Caută la Lidl ↗"};
+    case "kaufland": return {href:"https://www.kaufland.ro/oferte/prezentare-generala-oferte.html",label:"Ofertele Kaufland ↗"};
+    case "profi": return {href:"https://www.profi.ro/reviste-ro/",label:"Ofertele Profi ↗"};
+    case "dedeman": return {href:"https://www.dedeman.ro/ro/black_friday.html",label:"Oferta Dedeman ↗"};
+    case "brico": return {href:"https://www.bricodepot.ro/black-friday/",label:"Oferta Brico ↗"};
+    default: return {href:S.catalog,label:"Site "+S.name+" ↗"};
+  }
+}
+function card(it,sup){
+  const S=STORES[it.store], sx=status(it), tint=CATS[it.cat]?.[2]||"#eee";
+  let disc="";
+  if(typeof it.disc==="number") disc=`<span class="disc">${it.calc?"≈":""}−${it.disc}%</span>`;
+  else if(it.disc) disc=`<span class="disc mech">${it.disc}</span>`;
+  const price=it.price!=null?`<span class="now">${fmtP(it.price)} lei<span class="unit">${it.unit||""}</span></span>${it.old?`<span class="old">${fmtP(it.old)}</span>`:""}`:`<span class="now" style="font-size:16px">Reducere −${it.disc}%</span>`;
+  const app=it.app?`<span class="tag app">${it.store==="lidl"?"Lidl Plus":it.store==="kaufland"?"Card XTRA":it.store==="profi"?"Profi App":it.store==="carrefour"?"Card Carrefour":"Card fidelitate"}</span>`:"";
+  const k=keyOf(it);
+  return `<div class="card ${sx.k==="exp"?"expired":""}">
+    <div class="pic" style="--tint:${tint}"><span class="store" style="background:${S.color}">${S.name}</span>${disc}<span class="emo">${iconFor(it)}</span>${it.img?`<img alt="" src="${it.img}" onload="this.closest('.pic').classList.add('photo')" onerror="this.remove()">`:it.q?`<img alt="" data-q="${it.q.replace(/"/g,"")}">`:""}</div>
+    <div class="body"><div class="name">${it.name}</div><div class="size">${it.size||"&nbsp;"}</div>
+    <div class="price">${price}</div>${sup&&it.old&&it.price?`<div class="save">Economisești ${fmtP(it.old-it.price)} lei</div>`:""}
+    <div class="meta"><span class="tag ${sx.k==="soon"?"soon":sx.k==="future"?"future":""}">${sx.txt}</span>${app}</div>
+    ${(()=>{const L=productLink(it);return `<a class="cat-link" href="${L.href}" target="_blank" rel="noopener">${L.label}</a>`})()}</div>
+    <button class="star ${fav.has(k)?"on":""}" data-f="${encodeURIComponent(k)}" title="Lista de cumpărături">${fav.has(k)?"★":"☆"}</button>
+  </div>`;
+}
+
+// Super oferte: reducere ≥ 35% sau 1+1 (sau marcate "super":true de bot), active acum; top 12 per secțiune
+function superList(){
+  Object.keys(superList).forEach(k=>delete superList[k]);
+  const isSuper=it=>it.super===true||dnum(it)>=35||it.disc==="1+1";
+  return items.filter(it=>secOf(it.store)===st.sec&&status(it).k!=="exp"&&status(it).k!=="future"&&(st.store==="all"||it.store===st.store)&&isSuper(it))
+    .sort((a,b)=>(b.super===true)-(a.super===true)||dnum(b)-dnum(a)||((b.old||0)-(b.price||0))-((a.old||0)-(a.price||0)))
+    .filter(it=>it.price!=null)
+    .filter((it,_,arr)=>{const k="_c"+it.store;superList[k]=(superList[k]||0)+1;return st.store!=="all"||superList[k]<=(st.sec==="brico"?4:3)})
+    .slice(0,12);
+}
+function renderSupers(show){
+  const el=document.getElementById("supers");
+  const L=show?superList():[];
+  if(!L.length){el.innerHTML="";return}
+  el.innerHTML=`<div class="supers"><h2>🔥 Super oferte ${st.sec==="brico"?"la bricolaj":"săptămâna aceasta"}</h2>
+   <div class="lead">Cele mai mari reduceri active acum${st.store!=="all"?" la "+STORES[st.store].name:""}: cel puțin −35% sau 1+1 gratis.</div>
+   <div class="srow">${L.map(it=>card(it,true)).join("")}</div></div>`;
+}
+function render(){
+  const q=norm(document.getElementById("q").value.trim()), noapp=document.getElementById("noapp").checked,
+        onlyfav=document.getElementById("onlyfav").checked, sort=document.getElementById("sort").value;
+  const list=items.filter(it=>{
+    if(status(it).k==="exp") return false;
+    if(secOf(it.store)!==st.sec) return false;
+    if(st.store!=="all"&&it.store!==st.store) return false;
+    if(noapp&&it.app) return false;
+    if(onlyfav&&!fav.has(keyOf(it))) return false;
+    if(q&&!norm(it.name+" "+it.size+" "+(CATS[it.cat]?.[1]||"")).includes(q)) return false;
+    return true;
+  });
+  renderSupers(!q&&!onlyfav);
+  const cmp={disc:(a,b)=>dnum(b)-dnum(a),price:(a,b)=>(a.price??1e9)-(b.price??1e9),end:(a,b)=>parse(a.to)-parse(b.to)||dnum(b)-dnum(a)}[sort];
+  const groups=Object.keys(CATS).filter(c=>(CATS[c][3]||"super")===st.sec).map(c=>[c,list.filter(i=>i.cat===c).sort(cmp)]).filter(g=>g[1].length);
+  document.getElementById("catnav").innerHTML=groups.map(([c,a])=>`<a href="#${c}">${CATS[c][0]} ${CATS[c][1]}<small>${a.length}</small></a>`).join("");
+  document.getElementById("sections").innerHTML=groups.length?groups.map(([c,a])=>`<section id="${c}"><h2>${CATS[c][0]} ${CATS[c][1]} <small>${a.length===1?"1 ofertă":a.length+" oferte"}</small></h2><div class="grid">${a.map(card).join("")}</div></section>`).join(""):`<div class="empty">Nicio ofertă pentru filtrele alese.</div>`;
+  renderList();
+  wirePhotos();
+}
+function renderList(){
+  const el=document.getElementById("mylist"), f=items.filter(it=>fav.has(keyOf(it)));
+  if(!f.length){el.innerHTML="";return}
+  let tot=0;const by={};f.forEach(it=>(by[it.store]=by[it.store]||[]).push(it));
+  el.innerHTML=`<div class="list" id="lista"><h3>★ Lista mea de cumpărături (${f.length})</h3>${Object.entries(by).map(([s,a])=>`<b>${STORES[s].name}</b><ul>${a.map(it=>{if(it.price)tot+=it.price;return `<li>${iconFor(it)} ${it.name} ${it.size?"("+it.size+")":""} — ${it.price?fmtP(it.price)+" lei"+(it.unit||""):"−"+it.disc+"%"}${status(it).k==="exp"?" <i>(expirată)</i>":""}</li>`}).join("")}</ul>`).join("")}
+  <div class="tot">Total estimat: ${fmtP(tot)} lei</div><button class="chip" id="copy">Copiază lista</button> <button class="chip" id="clear">Golește</button></div>`;
+  document.getElementById("copy").onclick=e=>{const t=f.map(it=>`${STORES[it.store].name}: ${it.name} ${it.size} – ${it.price?fmtP(it.price)+" lei":"−"+it.disc+"%"}`).join("\n")+`\nTotal: ${fmtP(tot)} lei`;navigator.clipboard.writeText(t).then(()=>e.target.textContent="Copiat ✓").catch(()=>{})};
+  document.getElementById("clear").onclick=()=>{fav.clear();ls.set("oferte-fav2",[]);render()};
+}
+// Fotografii reale din Open Food Facts, doar când aplicația rulează prin OferteRomania.exe
+let PHOTO_API=false;const PH={};
+const phObs=("IntersectionObserver" in window)?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){phObs.unobserve(e.target);loadPhoto(e.target)}}),{rootMargin:"300px"}):null;
+function loadPhoto(img){
+  const q=img.dataset.q; if(!q) return;
+  const done=u=>{if(!u) return; img.onload=()=>img.closest(".pic")?.classList.add("photo"); img.src=u};
+  if(q in PH){ if(PH[q] instanceof Promise) PH[q].then(done); else done(PH[q]); return }
+  PH[q]=fetch("/api/img?q="+encodeURIComponent(q)).then(r=>r.json()).then(j=>(PH[q]=j.url||"")).catch(()=>(PH[q]=""));
+  PH[q].then(done);
+}
+function wirePhotos(){ if(!PHOTO_API) return; document.querySelectorAll(".pic img[data-q]:not([data-w])").forEach(i=>{i.dataset.w=1; phObs?phObs.observe(i):loadPhoto(i)}) }
+fetch("/api/ping").then(r=>{if(r.ok){PHOTO_API=true;wirePhotos();const f=document.getElementById("photocredit");if(f)f.style.display=""}}).catch(()=>{});
+function renderStatic(){
+  const u=parse(DATA.updated);
+  document.getElementById("upd").textContent=`Actualizat automat de bot: ${u.getDate()} ${MON[u.getMonth()]} ${u.getFullYear()} · ${items.filter(i=>status(i).k!=="exp").length} oferte active`;
+  document.getElementById("q").placeholder=st.sec==="brico"?"Caută produs (ex: bormașină, parchet, polizor)…":"Caută produs (ex: cafea, pui, cașcaval)…";
+  document.getElementById("secs").innerHTML=Object.entries(SECTIONS).map(([k,l])=>`<button data-sec="${k}" class="${st.sec===k?"on":""}">${l} <small>${items.filter(i=>secOf(i.store)===k&&status(i).k!=="exp").length}</small></button>`).join("");
+  document.getElementById("campaigns").innerHTML=(DATA.campaigns||[]).filter(c=>secOf(c.store)===st.sec).map(c=>{const S=STORES[c.store];return `<div class="camp" style="--c:${S.color}"><b>${S.name} · ${c.title}</b><span>${c.details}</span><br><a href="${S.catalog}" target="_blank" rel="noopener">Catalog oficial →</a></div>`}).join("");
+  document.getElementById("stores").innerHTML=[["all","Toate magazinele"],...Object.entries(STORES).filter(([k])=>secOf(k)===st.sec).map(([k,v])=>[k,v.name])].map(([k,l])=>`<button data-s="${k}" class="${st.store===k?"on":""}">${l}</button>`).join("");
+  document.getElementById("foot").innerHTML=`Prețurile sunt cele anunțate în cataloage și pot varia între magazine; ofertele sunt valabile în limita stocului. Insignele de card/aplicație marchează reducerile care cer scanarea aplicației de fidelitate. „≈” = reducere calculată din prețul vechi și cel nou. Iconițele sunt ilustrative.<span id="photocredit" style="display:none"> Fotografiile de produs: <a href="https://world.openfoodfacts.org" target="_blank" rel="noopener">Open Food Facts</a>, licență CC BY-SA.</span> Aplicație pentru uz personal, neafiliată magazinelor.<br>Surse: ${(DATA.sources||[]).map(s=>`<a href="${s.u}" target="_blank" rel="noopener">${s.t}</a>`).join(" · ")}`;
+}
+
+document.addEventListener("click",e=>{
+  const s=e.target.closest("[data-s]"),f=e.target.closest("[data-f]");
+  if(s){st.store=s.dataset.s;renderStatic();render()}
+  const sc=e.target.closest("[data-sec]");
+  if(sc){st.sec=sc.dataset.sec;st.store="all";try{history.replaceState(null,"",st.sec==="brico"?"#bricolaj":"#")}catch(_){location.hash=st.sec==="brico"?"bricolaj":""};renderStatic();render();window.scrollTo(0,0)}
+  if(f){const k=decodeURIComponent(f.dataset.f);fav.has(k)?fav.delete(k):fav.add(k);ls.set("oferte-fav2",[...fav]);render()}
+});
+["q","sort","noapp","onlyfav"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+
+// buton „sus”
+const toTop=document.getElementById("toTop");
+addEventListener("scroll",()=>toTop.classList.toggle("show",scrollY>600),{passive:true});
+toTop.onclick=()=>scrollTo({top:0,behavior:"smooth"});
+// „Deschide pe telefon” (doar când rulează prin OferteRomania.exe)
+fetch("/api/info").then(r=>r.ok?r.json():null).then(info=>{
+  if(!info||!info.lan) return;
+  const btn=document.getElementById("phoneBtn"), modal=document.getElementById("phoneModal");
+  if(matchMedia("(max-width:700px)").matches) return;
+  btn.hidden=false;
+  btn.onclick=()=>{
+    modal.hidden=false; document.getElementById("lanUrl").textContent=info.lan;
+    const box=document.getElementById("qr");
+    if(!box.dataset.done){
+      const draw=()=>{box.dataset.done=1; const qr=qrcode(0,"M"); qr.addData(info.lan); qr.make(); box.innerHTML=qr.createSvgTag({cellSize:5,margin:2})};
+      if(window.qrcode) draw(); else { const s=document.createElement("script"); s.src="qrcode.js"; s.onload=draw; s.onerror=()=>{box.style.display="none"}; document.head.appendChild(s); }
+    }
+  };
+  document.getElementById("phoneClose").onclick=()=>modal.hidden=true;
+  modal.onclick=e=>{if(e.target===modal) modal.hidden=true};
+}).catch(()=>{});
+fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{DATA=d;items=d.offers;renderStatic();render()})
+ .catch(()=>{document.getElementById("upd").textContent="Nu am putut încărca ofertele. Reîncarcă pagina.";});
+</script>
+</body>
+</html>

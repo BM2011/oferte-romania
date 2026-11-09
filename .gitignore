@@ -1,0 +1,4 @@
+# Executabilul se publică în GitHub Releases, nu în repository
+*.exe
+images-cache.json
+data-online.json
