@@ -94,6 +94,8 @@ section h2 small{font-size:13px;color:var(--muted);font-weight:500}
 #qr{display:inline-block;background:#fff;padding:10px;border-radius:10px;margin:6px 0}
 #qr img,#qr canvas{display:block}
 .url{font-weight:700;color:var(--ink)!important;word-break:break-all}.hint{font-size:12px!important}
+.mbox ol{padding-left:20px;margin:8px 0;font-size:14.5px;line-height:1.5}.mbox ol li{margin:6px 0}.kbd{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 6px;background:var(--bg);font-weight:700}
+#installBtn{margin:10px 0 0 8px}
 #toTop{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.18);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;cursor:pointer}
 #toTop.show{opacity:1;pointer-events:auto}
 @media (max-width:700px){
@@ -186,6 +188,7 @@ footer a{color:var(--muted)}
   <div class="sub">Supermarket: Lidl · Kaufland · Carrefour · Profi — Bricolaj: Dedeman · Brico · Leroy Merlin · Hornbach</div>
   <div class="bot" id="upd">Se încarcă…</div>
   <button class="chip phone" id="phoneBtn" hidden>📱 Deschide pe telefon</button>
+  <button class="btnp phone" id="installBtn" hidden>📲 Instalează aplicația</button>
 </header>
 <div class="wrap">
   <div class="campaigns" id="campaigns"></div>
@@ -210,6 +213,11 @@ footer a{color:var(--muted)}
   <footer id="foot"></footer>
 </div>
 <button id="toTop" aria-label="Sus">↑</button>
+<div id="instModal" class="modal" hidden><div class="mbox" style="text-align:left">
+  <h3 style="text-align:center">📲 Instalează aplicația</h3>
+  <div id="instText"></div>
+  <div style="text-align:center;margin-top:12px"><button class="chip" id="instClose">Am înțeles</button></div>
+</div></div>
 <div id="phoneModal" class="modal" hidden><div class="mbox">
   <h3>📱 Deschide pe telefon</h3>
   <p>Conectează telefonul la <b>aceeași rețea Wi-Fi</b> ca acest calculator, apoi scanează codul cu camera:</p>
@@ -650,6 +658,28 @@ fetch("/api/info").then(r=>r.ok?r.json():null).then(info=>{
 fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{DATA=d;items=d.offers;renderStatic();render()})
  .catch(()=>{document.getElementById("upd").textContent="Nu am putut încărca ofertele. Reîncarcă pagina.";});
 
+
+// ---- Instalare ca aplicație (Android: prompt nativ; iPhone: instrucțiuni) ----
+(function(){
+  const btn=document.getElementById("installBtn"),modal=document.getElementById("instModal"),txt=document.getElementById("instText");
+  const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+  if(standalone||!location.hostname.endsWith("github.io"))return;
+  const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1),
+        android=/Android/i.test(ua),inApp=/FBAN|FBAV|Instagram|Messenger|WhatsApp|Line\/|; wv\)/i.test(ua);
+  let deferred=null;
+  addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;btn.hidden=false});
+  addEventListener("appinstalled",()=>{btn.hidden=true;deferred=null});
+  if(ios||android)btn.hidden=false;
+  const show=h=>{txt.innerHTML=h;modal.hidden=false};
+  btn.onclick=async()=>{
+    if(deferred){deferred.prompt();const r=await deferred.userChoice.catch(()=>null);if(r&&r.outcome==="accepted")btn.hidden=true;deferred=null;return}
+    if(inApp)return show(`<p>Ai deschis pagina din altă aplicație (WhatsApp, Facebook…), care nu permite instalarea.</p><ol><li>Apasă meniul <span class="kbd">⋮</span> sau <span class="kbd">…</span> din colțul ecranului.</li><li>Alege <b>„Deschide în browser”</b> / <b>„Deschide în Chrome”</b>${ios?" / <b>„Deschide în Safari”</b>":""}.</li><li>Apoi apasă din nou <b>📲 Instalează aplicația</b>.</li></ol>`);
+    if(ios)return show(`<ol><li>Deschide pagina în <b>Safari</b>.</li><li>Apasă butonul <b>Partajează</b> <span class="kbd">⬆︎</span> (pătratul cu săgeată, jos pe ecran).</li><li>Derulează și alege <b>„Adaugă pe ecranul principal”</b>.</li><li>Apasă <b>Adaugă</b> — iconița „Oferte” apare pe ecran.</li></ol>`);
+    show(`<ol><li>Deschide pagina în <b>Google Chrome</b>.</li><li>Apasă meniul <span class="kbd">⋮</span> din dreapta sus.</li><li>Alege <b>„Instalează aplicația”</b> sau <b>„Adaugă pe ecranul de pornire”</b>.</li><li>Confirmă cu <b>Instalează</b> / <b>Adaugă</b>.</li></ol><p class="hint">În Samsung Internet: meniul <span class="kbd">≡</span> → „Adaugă pagina la” → „Ecran de pornire”.</p>`);
+  };
+  document.getElementById("instClose").onclick=()=>modal.hidden=true;
+  modal.onclick=e=>{if(e.target===modal)modal.hidden=true};
+})();
 if("serviceWorker" in navigator&&location.hostname.endsWith("github.io")){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 </script>
 </body>
