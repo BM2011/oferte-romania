@@ -381,6 +381,8 @@ fetch("/api/info").then(r=>r.ok?r.json():null).then(info=>{
 }).catch(()=>{});
 fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{DATA=d;items=d.offers;renderStatic();render()})
  .catch(()=>{document.getElementById("upd").textContent="Nu am putut încărca ofertele. Reîncarcă pagina.";});
+
+if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 </script>
 </body>
 </html>
