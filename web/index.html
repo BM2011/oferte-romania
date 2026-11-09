@@ -96,6 +96,21 @@ section h2 small{font-size:13px;color:var(--muted);font-weight:500}
 .url{font-weight:700;color:var(--ink)!important;word-break:break-all}.hint{font-size:12px!important}
 .mbox ol{padding-left:20px;margin:8px 0;font-size:14.5px;line-height:1.5}.mbox ol li{margin:6px 0}.kbd{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 6px;background:var(--bg);font-weight:700}
 #installBtn{margin:10px 0 0 8px}
+.bell{margin:10px 0 0 8px;font-weight:700}.badge{display:inline-block;min-width:20px;padding:1px 6px;border-radius:999px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;margin-left:2px}
+.abox{max-width:640px;text-align:left;max-height:90vh;overflow:auto;position:relative;padding:18px 20px}
+.abox h3{margin:0 0 6px;font-size:20px}.abox h4{margin:0 0 6px;font-size:16px}.abox h4 small{color:var(--muted);font-weight:500}
+.aclose{position:absolute;right:10px;top:8px;border:none;background:none;font-size:26px;color:var(--muted);cursor:pointer}
+.asec{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.asec ul{list-style:none;margin:6px 0 0;padding:0}
+.arow{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.arow:first-child{border-top:none}.arow.new{background:color-mix(in srgb,var(--hot) 7%,transparent);border-radius:8px;padding:7px 6px}
+.arow .an{flex:1;min-width:0}.arow .an small{color:var(--muted)}.arow a{text-decoration:none;color:var(--accent);font-weight:800;padding:4px}
+.arow .store{flex:none}.nw{color:var(--hot);font-size:11px}.dsc{color:var(--hot);font-weight:700}
+.awatch{margin-top:10px}.awatch small{color:var(--muted)}
+.aopt{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+.aopt .tg{margin:6px 0;color:var(--ink)}
+.topic{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.topic code{font-size:15px;font-weight:700;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 10px}
+.watchbtn{border:none;background:none;color:var(--accent);font:inherit;font-size:12px;font-weight:600;cursor:pointer;padding:2px 0;align-self:flex-start}
 #toTop{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.18);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;cursor:pointer}
 #toTop.show{opacity:1;pointer-events:auto}
 @media (max-width:700px){
@@ -188,6 +203,7 @@ footer a{color:var(--muted)}
   <div class="sub">Supermarket: Lidl · Kaufland · Carrefour · Profi — Bricolaj: Dedeman · Brico · Leroy Merlin · Hornbach</div>
   <div class="bot" id="upd">Se încarcă…</div>
   <button class="chip phone" id="phoneBtn" hidden>📱 Deschide pe telefon</button>
+  <button class="chip phone bell" id="bellBtn">🔔 Alerte</button>
   <button class="btnp phone" id="installBtn" hidden>📲 Instalează aplicația</button>
 </header>
 <div class="wrap">
@@ -213,6 +229,7 @@ footer a{color:var(--muted)}
   <footer id="foot"></footer>
 </div>
 <button id="toTop" aria-label="Sus">↑</button>
+<div id="alertModal" class="modal" hidden><div class="mbox abox"><button class="aclose" id="alertClose" aria-label="Închide">×</button><div id="alertBody"></div></div></div>
 <div id="instModal" class="modal" hidden><div class="mbox" style="text-align:left">
   <h3 style="text-align:center">📲 Instalează aplicația</h3>
   <div id="instText"></div>
@@ -322,7 +339,7 @@ function card(it,sup){
     <div class="body"><div class="name">${it.name}</div><div class="size">${it.size||"&nbsp;"}</div>
     <div class="price">${price}</div>${sup&&it.old&&it.price?`<div class="save">Economisești ${fmtP(it.old-it.price)} lei</div>`:""}
     <div class="meta"><span class="tag ${sx.k==="soon"?"soon":sx.k==="future"?"future":""}">${sx.txt}</span>${app}</div>
-    ${(()=>{const L=productLink(it);return `<a class="cat-link" href="${L.href}" target="_blank" rel="noopener">${L.label}</a>`})()}</div>
+    ${(()=>{const L=productLink(it);return `<a class="cat-link" href="${L.href}" target="_blank" rel="noopener">${L.label}</a>`})()}<button class="watchbtn" data-watch="${encodeURIComponent((it.q||it.name.split(/[\s–-]+/).slice(0,2).join(" ")))}" title="Primește alertă când apar oferte la acest produs">🔔 Urmărește</button></div>
     <button class="star ${fav.has(k)?"on":""}" data-f="${encodeURIComponent(k)}" title="${fav.has(k)?"Scoate din lista de cumpărături":"Adaugă în lista de cumpărături"}">${fav.has(k)?"✓":"＋"}</button>
   </div>`;
 }
@@ -363,6 +380,7 @@ function render(){
   document.getElementById("catnav").innerHTML=groups.map(([c,a])=>`<a href="#${c}">${CATS[c][0]} ${CATS[c][1]}<small>${a.length}</small></a>`).join("");
   document.getElementById("sections").innerHTML=groups.length?groups.map(([c,a])=>`<section id="${c}"><h2>${CATS[c][0]} ${CATS[c][1]} <small>${a.length===1?"1 ofertă":a.length+" oferte"}</small></h2><div class="grid">${a.map(card).join("")}</div></section>`).join(""):`<div class="empty">Nicio ofertă pentru filtrele alese.</div>`;
   renderPlanner();
+  updateBell();
   wirePhotos();
 }
 // ================= Lista de cumpărături + cele mai bune prețuri + traseu =================
@@ -602,6 +620,81 @@ document.addEventListener("change",e=>{const t=e.target;
     saveList();PL.route=null;render()}
 });
 fetch("/api/mp/ping").then(r=>{MP=r.ok;if(MP){renderPlanner();schedMP()}}).catch(()=>{MP=false});
+
+// ================= Alerte: produse urmărite + super oferte noi =================
+const NTFY_TOPIC="oferte-romania-bm2011";
+const WKEY="oferte-urmarite",SKEY="oferte-vazute";
+let WATCH=ls.get(WKEY,[]),SEEN=new Set(ls.get(SKEY,[])),ALSET=ls.get("oferte-alerte",{super:true}),PCAL=null;
+const isSuperO=it=>it.price!=null&&(it.super===true||dnum(it)>=35||it.disc==="1+1");
+const watchHits=()=>WATCH.map(w=>({w,L:offerCands({t:w})}));
+function newAlerts(){
+  const act=items.filter(isActive),w=new Map(),s=[];
+  for(const h of watchHits())for(const it of h.L)if(!SEEN.has("w:"+keyOf(it)))w.set(keyOf(it),it);
+  if(ALSET.super)for(const it of act)if(isSuperO(it)&&!SEEN.has("s:"+keyOf(it)))s.push(it);
+  return{w:[...w.values()],s};
+}
+function markSeen(){const n=newAlerts();n.w.forEach(it=>SEEN.add("w:"+keyOf(it)));n.s.forEach(it=>SEEN.add("s:"+keyOf(it)));
+  const live=new Set(items.flatMap(it=>["w:"+keyOf(it),"s:"+keyOf(it)]));SEEN=new Set([...SEEN].filter(k=>live.has(k)));ls.set(SKEY,[...SEEN]);updateBell()}
+let FIRSTRUN=ls.get(SKEY,null)===null;
+function updateBell(){const b=document.getElementById("bellBtn");if(!b)return;
+  if(FIRSTRUN&&items.length){FIRSTRUN=false;items.filter(isActive).filter(isSuperO).forEach(it=>SEEN.add("s:"+keyOf(it)));ls.set(SKEY,[...SEEN])}const n=newAlerts(),c=n.w.length+n.s.length;
+  b.innerHTML=`🔔 Alerte${c?` <span class="badge">${c>99?"99+":c}</span>`:""}`}
+function saveWatch(){ls.set(WKEY,WATCH);syncSW();syncPC();renderAlerts();updateBell()}
+// copia pentru verificarea în fundal (Android, aplicație instalată)
+function syncSW(){if(!("caches" in window))return;caches.open("oferte-alerte").then(c=>c.put("./__alerte.json",new Response(JSON.stringify({watch:WATCH,super:!!ALSET.super,on:!!ALSET.push})))).catch(()=>{})}
+function syncPC(){if(!PCAL)return;fetch("/api/alerts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({watch:WATCH,notify:!!PCAL.notify,super:!!ALSET.super})}).catch(()=>{})}
+const miniRow=(it,isNew)=>{const S=STORES[it.store],L=productLink(it);return `<li class="arow${isNew?" new":""}"><span class="store" style="background:${S.color}">${S.name}</span><span class="an">${esc(it.name)} <small>${esc(it.size||"")}</small>${isNew?' <b class="nw">NOU</b>':""}<br><small>${status(it).txt}${it.app?" · cu card/aplicație":""}</small></span><span class="pp">${it.price!=null?fmtP(it.price)+" lei":""}${typeof it.disc==="number"?` <small class="dsc">−${it.disc}%</small>`:it.disc?` <small class="dsc">${esc(it.disc)}</small>`:""}</span><a href="${L.href}" target="_blank" rel="noopener" title="${L.label}">↗</a></li>`};
+function renderAlerts(){
+  const box=document.getElementById("alertBody");if(!box||document.getElementById("alertModal").hidden)return;
+  const nw=newAlerts(),nwW=new Set(nw.w.map(keyOf)),nwS=new Set(nw.s.map(keyOf));
+  const perm=("Notification" in window)?Notification.permission:"unsupported";
+  const canBg="serviceWorker" in navigator&&location.hostname.endsWith("github.io");
+  let h=`<h3>🔔 Alerte</h3>
+  <section class="asec"><h4>👀 Produse urmărite</h4><p class="hint">Scrie produsele pe care le cauți. Când apar în oferte, primești alertă.</p>
+   <form id="watchf" class="addrow"><input id="watchq" placeholder="Ex: cafea Jacobs, detergent Ariel, bormașină" autocomplete="off"><button class="btnp">＋ Urmărește</button></form>
+   ${WATCH.length?`<div class="lchips">${WATCH.map((w,i)=>`<span class="lchip">${esc(w)}<button data-wdel="${i}">×</button></span>`).join("")}</div>`:""}
+   ${watchHits().map(({w,L})=>`<div class="awatch"><b>${esc(w)}</b> ${L.length?`<small>${L.length} ${L.length===1?"ofertă":"oferte"} acum</small><ul>${L.slice(0,8).map(it=>miniRow(it,nwW.has(keyOf(it)))).join("")}</ul>`:`<small>— nicio ofertă acum; te anunț când apare</small>`}</div>`).join("")}
+  </section>
+  <section class="asec"><h4>🔥 Super oferte noi ${nw.s.length?`<small>(${nw.s.length} de la ultima vizită)</small>`:""}</h4>
+   <label class="tg"><input type="checkbox" id="alSuper" ${ALSET.super?"checked":""}> Anunță-mă și de super ofertele noi</label>
+   ${ALSET.super?(nw.s.length?`<ul>${nw.s.sort((a,b)=>dnum(b)-dnum(a)).slice(0,12).map(it=>miniRow(it,true)).join("")}</ul>`:`<p class="hint">Nicio super ofertă nouă de la ultima vizită.</p>`):""}
+  </section>
+  <section class="asec"><h4>📲 Unde primești notificările</h4>
+   <div class="aopt"><b>📱 Pe telefon — super oferte (Android și iPhone)</b>
+     <p class="hint">Instalează aplicația gratuită <b>ntfy</b> (<a href="https://play.google.com/store/apps/details?id=io.heckel.ntfy" target="_blank" rel="noopener">Google Play</a> · <a href="https://apps.apple.com/app/ntfy/id1625396347" target="_blank" rel="noopener">App Store</a>), apasă <b>＋</b> și abonează-te la subiectul:</p>
+     <div class="topic"><code>${NTFY_TOPIC}</code><button class="chip" data-copy="${NTFY_TOPIC}">Copiază</button><a class="chip" href="https://ntfy.sh/${NTFY_TOPIC}" target="_blank" rel="noopener">Deschide în ntfy ↗</a></div>
+     <p class="hint">Primești o notificare de fiecare dată când botul publică super oferte noi (de obicei dimineața). Merge și pe PC, în browser, la ntfy.sh.</p></div>
+   ${PCAL?`<div class="aopt"><b>💻 Pe acest PC — notificări Windows</b> <small>(produse urmărite + super oferte)</small>
+     <label class="tg"><input type="checkbox" id="pcNotify" ${PCAL.notify?"checked":""}> Arată notificări Windows</label>
+     <label class="tg"><input type="checkbox" id="pcAuto" ${PCAL.autostart?"checked":""}> Pornește aplicația odată cu Windows (în fundal), ca să verifice singură</label>
+     <button class="chip" id="pcTest">Trimite o notificare de test</button>${PCAL.err?`<p class="hint">⚠️ ${esc(PCAL.err)}</p>`:""}
+     <p class="hint">Programul verifică ofertele la pornire și la fiecare 3 ore.</p></div>`:`<div class="aopt"><b>💻 Pe PC</b><p class="hint">Pornește <b>OferteRomania.exe</b> și deschide aplicația de acolo: poți activa notificări Windows pentru produsele urmărite.</p></div>`}
+   ${canBg?`<div class="aopt"><b>🤖 Pe acest dispozitiv — produse urmărite</b>
+     <label class="tg"><input type="checkbox" id="alPush" ${ALSET.push&&perm==="granted"?"checked":""} ${perm==="denied"||perm==="unsupported"?"disabled":""}> Notificări în fundal (Android, aplicația instalată)</label>
+     <p class="hint">${perm==="denied"?"⚠️ Notificările sunt blocate pentru acest site; permite-le din setările browserului.":perm==="unsupported"?"Browserul acesta nu suportă notificări.":"Chrome verifică ofertele cam o dată pe zi, doar dacă aplicația e instalată pe ecran. Pe iPhone nu e posibil — folosește ntfy (mai sus) și clopoțelul din aplicație."}</p></div>`:""}
+  </section>`;
+  box.innerHTML=h;
+  const wf=document.getElementById("watchf");wf.onsubmit=e=>{e.preventDefault();const q=document.getElementById("watchq");for(const t of q.value.split(/[,;]+/).map(s=>s.trim()).filter(Boolean))if(!WATCH.some(w=>norm(w)===norm(t)))WATCH.push(t);q.value="";saveWatch()};
+  document.getElementById("alSuper").onchange=e=>{ALSET.super=e.target.checked;ls.set("oferte-alerte",ALSET);syncSW();syncPC();renderAlerts();updateBell()};
+  const pn=document.getElementById("pcNotify");if(pn)pn.onchange=()=>{PCAL.notify=pn.checked;syncPC();if(pn.checked)fetch("/api/alerts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({watch:WATCH,notify:true,super:!!ALSET.super,test:true})})};
+  const pa=document.getElementById("pcAuto");if(pa)pa.onchange=()=>fetch("/api/alerts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({watch:WATCH,notify:!!PCAL.notify,super:!!ALSET.super,autostart:pa.checked})}).then(r=>r.json()).then(j=>{PCAL.autostart=j.autostart;PCAL.err=j.err;renderAlerts()}).catch(()=>{});
+  const pt=document.getElementById("pcTest");if(pt)pt.onclick=()=>{fetch("/api/alerts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({watch:WATCH,notify:!!PCAL.notify,super:!!ALSET.super,test:true})});pt.textContent="Trimisă ✓"};
+  const ap=document.getElementById("alPush");if(ap)ap.onchange=async()=>{
+    if(ap.checked){const p=await Notification.requestPermission();if(p!=="granted"){ap.checked=false;renderAlerts();return}
+      ALSET.push=true;try{const reg=await navigator.serviceWorker.ready;if(reg.periodicSync){const st=await navigator.permissions.query({name:"periodic-background-sync"}).catch(()=>({state:"granted"}));if(st.state==="granted")await reg.periodicSync.register("oferte-alerte",{minInterval:12*3600e3})}
+        reg.showNotification("🔔 Oferte România",{body:"Notificările sunt pornite pentru produsele urmărite.",icon:"icon-192.png",badge:"icon-192.png"})}catch(e){}}
+    else{ALSET.push=false;try{const reg=await navigator.serviceWorker.ready;reg.periodicSync&&reg.periodicSync.unregister("oferte-alerte")}catch(e){}}
+    ls.set("oferte-alerte",ALSET);syncSW()};
+}
+document.addEventListener("click",e=>{const t=e.target;let b;
+  if(t.closest("#bellBtn")){document.getElementById("alertModal").hidden=false;renderAlerts();setTimeout(markSeen,4000)}
+  else if(t.closest("#alertClose")||t.id==="alertModal"){document.getElementById("alertModal").hidden=true;markSeen()}
+  else if(b=t.closest("[data-wdel]")){WATCH.splice(+b.dataset.wdel,1);saveWatch()}
+  else if(b=t.closest("[data-copy]")){navigator.clipboard.writeText(b.dataset.copy).then(()=>b.textContent="Copiat ✓").catch(()=>{})}
+  else if(b=t.closest("[data-watch]")){const n=decodeURIComponent(b.dataset.watch);if(!WATCH.some(w=>norm(w)===norm(n)))WATCH.push(n);saveWatch();b.textContent="🔔 Urmărit ✓"}
+});
+fetch("/api/alerts").then(r=>r.ok?r.json():null).then(j=>{if(j){PCAL=j;if(JSON.stringify(j.watch||[])!==JSON.stringify(WATCH))syncPC()}}).catch(()=>{});
+if(location.hash==="#alerte")setTimeout(()=>document.getElementById("bellBtn")?.click(),800);
 
 // Fotografii reale din Open Food Facts, doar când aplicația rulează prin OferteRomania.exe
 let PHOTO_API=false;const PH={};

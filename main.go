@@ -34,6 +34,18 @@ func openBrowser(url string) {
 }
 
 func main() {
+	fundal := len(os.Args) > 1 && (os.Args[1] == "--fundal" || os.Args[1] == "--background")
+	// Dacă programul rulează deja (ex. pornit odată cu Windows), doar deschidem pagina.
+	if c, err := (&http.Client{Timeout: 800 * time.Millisecond}).Get("http://127.0.0.1:8787/api/ping"); err == nil {
+		c.Body.Close()
+		if !fundal {
+			openBrowser("http://127.0.0.1:8787/")
+		}
+		return
+	}
+	if fundal {
+		hideConsole()
+	}
 	var root fs.FS
 	sursa := "fisierele incluse in executabil"
 	exeDir := "."
@@ -86,6 +98,7 @@ func main() {
 		}
 		files.ServeHTTP(w, r)
 	})
+	mux.HandleFunc("/api/alerts", newAlerts(exeDir, online).handler)
 	mux.HandleFunc("/api/info", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		fmt.Fprintf(w, `{"lan":%q}`, lan)
@@ -109,7 +122,9 @@ func main() {
 	fmt.Println("Inchide aceasta fereastra pentru a opri aplicatia.")
 	fmt.Println()
 
-	go func() { time.Sleep(400 * time.Millisecond); openBrowser(url) }()
+	if !fundal {
+		go func() { time.Sleep(400 * time.Millisecond); openBrowser(url) }()
+	}
 	if err := http.Serve(ln, mux); err != nil {
 		fmt.Println("Eroare server:", err)
 		fmt.Scanln()

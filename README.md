@@ -72,3 +72,12 @@ Aplicația caută cel mai bun preț pentru fiecare produs, alege 1–3 magazine 
 - **Versiunea online** (GitHub Pages): compară doar ofertele din cataloage; traseul folosește filialele din OpenStreetMap.
 
 Locația ta e trimisă doar către Monitorul Prețurilor / OpenStreetMap, ca să găsească magazinele din jur; lista rămâne pe dispozitivul tău.
+
+## Alerte
+
+Butonul **🔔 Alerte** din aplicație: lista de **produse urmărite** (sau „🔔 Urmărește” de pe orice ofertă) și **super ofertele noi**.
+
+- **Telefon (Android și iPhone):** aplicația gratuită [ntfy](https://ntfy.sh) → abonare la subiectul `oferte-romania-bm2011`.
+  GitHub trimite automat super ofertele noi de fiecare dată când botul publică oferte (`.github/workflows/notificari.yml`).
+- **PC:** din OferteRomania.exe — notificări Windows pentru produsele urmărite și super oferte; opțional pornire odată cu Windows (în fundal).
+- **Android, aplicația instalată:** Chrome poate verifica produsele urmărite în fundal (cam o dată pe zi).
